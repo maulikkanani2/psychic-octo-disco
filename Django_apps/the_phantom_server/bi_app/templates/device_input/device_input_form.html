@@ -1,0 +1,232 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container px-0 px-lg-3">
+    <div class="card perent-card bg-gray-800 m-0 m-lg-3">
+        <div class="card-body">
+
+            <div class="row ">
+                <!-- Tables -->
+                <div class="col-12 mb-3">
+                    <h2>Device Inputs Data</h2>
+                </div>
+                {% if submitted %}
+                <div class="col-12 mb-3 dark-text">
+                    <div id="successMessage">
+                        Successfully Saved! Redirecting in <span id="deviceInputCountDown">2</span> seconds...
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12 mb-3">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#createdeviceinput">Create Device Inputs</button>
+                    <button class="btn btn-secondary" onclick="history_back()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-skip-backward" viewBox="0 0 16 16">
+                            <path d="M.5 3.5A.5.5 0 0 1 1 4v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v2.94l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L8.5 8.752v2.94c0 .653-.713.998-1.233.696L1 8.752V12a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m7 1.133L1.696 8 7.5 11.367zm7.5 0L9.196 8 15 11.367z" />
+                        </svg>
+                        Go Back
+                    </button>
+                </div>
+                <div class="col-12 mb-5">
+                    <div>
+                        <div class="table-responsive">
+                            <table class="table bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="min-140 table-secondary" scope="col">Name</th>
+                                        <th class="min-190 table-secondary" scope="col">Current Production</th>
+                                        <th class="min-190 table-secondary" scope="col">Hour Production Limit</th>
+                                        <th class="min-140 table-secondary" scope="col">KFactor</th>
+                                        <th class="min-140 table-secondary" scope="col">Kill Switch</th>
+                                        <th class="min-190 table-secondary" scope="col">Low Line Pressure</th>
+                                        <th class="min-140 table-secondary" scope="col">Max Output</th>
+                                        <th class="min-140 table-secondary" scope="col">Max Pressure</th>
+                                        <th class="min-140 table-secondary" scope="col">Min Output</th>
+                                        <th class="min-140 table-secondary" scope="col">Min Pressure</th>
+                                        <th class="min-160 table-secondary" scope="col">Output Channel</th>
+                                        <th class="min-140 table-secondary" scope="col">Start</th>
+                                        <th class="min-190 table-secondary" scope="col">Start Casing Pressure</th>
+                                        <th class="min-190 table-secondary" scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if latest_records %}
+                                    {% for record in latest_records %}
+                                    <tr data-id="{{ record.id }}">
+                                        <td>{{record.name}}</td>
+                                        <td>{{record.current_production}}</td>
+                                        <td>{{record.hour_production_limit}}</td>
+                                        <td>{{record.k_factor}}</td>
+                                        <td>{{record.kill_switch}}</td>
+                                        <td>{{record.low_line_pressure}}</td>
+                                        <td>{{record.max_output}}</td>
+                                        <td>{{record.max_pressure}}</td>
+                                        <td>{{record.min_output}}</td>
+                                        <td>{{record.min_pressure}}</td>
+                                        <td>{{record.output_channel}}</td>
+                                        <td>{{record.start}}</td>
+                                        <td>{{record.start_casing_pressure}}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-secondary active"
+                                                    onclick="deleteDeviceInputs('{{record.id}}')">
+                                                    <input type="radio" name="options" id="option1" checked
+                                                        autocomplete="off">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                        <path
+                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                    </svg>
+                                                </label>
+                                                <label class="btn btn-secondary">
+                                                    <a href="{% url 'update_device_input' record.id %}"
+                                                        style="color: #fff;">
+                                                        <input type="radio" name="options" id="option2" autocomplete="off">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                        </svg>
+                                                    </a>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="13" class="text-center">No Record Found</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="modal fade chart-main" data-backdrop="static" id="createdeviceinput" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="p-3">Create Device Inputes</h3>
+                        <button class="bg-transparent border-0 outline-none" data-dismiss="modal">
+                            <span class="close-icon-light">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#ffffff"
+                                    class="bi bi-x" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </span>
+                            <span class="close-icon-dark">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                    class="bi bi-x" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="NameFormControlInput" class="form-label">{{ form.name.label_tag }}</label>
+                                {{ form.name }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="CurrentProductionFormControlInput" class="form-label">{{ form.current_production.label_tag }}</label>
+                                {{ form.current_production }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="HourProductionLimit" class="form-label">{{ form.hour_production_limit.label_tag }}</label>
+                                {{ form.hour_production_limit }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="KFactor" class="form-label">{{ form.k_factor.label_tag }}</label>
+                                {{ form.k_factor }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="KillSwitch" class="form-label">{{ form.kill_switch.label_tag }}</label>
+                                {{ form.kill_switch }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="LowLinePressure" class="form-label">{{ form.low_line_pressure.label_tag }}</label>
+                                {{ form.low_line_pressure }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="MaxOutput" class="form-label">{{ form.max_output.label_tag }}</label>
+                                {{ form.max_output }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="MaxPressure" class="form-label">{{ form.max_pressure.label_tag }}</label>
+                                {{ form.max_pressure }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="MinOutput" class="form-label">{{ form.min_output.label_tag }}</label>
+                                {{ form.min_output }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="MinPressure" class="form-label">{{ form.min_pressure.label_tag }}</label>
+                                {{ form.min_pressure }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="OutputChannel" class="form-label">{{ form.output_channel.label_tag }}</label>
+                                {{ form.output_channel }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="start" class="form-label">{{ form.start.label_tag }}</label>
+                                {{ form.start }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="StartCasingPressure" class="form-label">{{ form.start_casing_pressure.label_tag }}</label>
+                                {{ form.start_casing_pressure }}
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Create Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function deleteDeviceInputs(deviceId) {
+        if (confirm("Are you sure you want to delete this Device Input?")) {
+            fetch(`/delete_device_input/${deviceId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const row = document.querySelector(`tr[data-id="${deviceId}"]`);
+                        row.remove();
+                    } else {
+                        console.error('Error deleting the device input');
+                    }
+                })
+
+                .catch(error => {
+                    console.error('Error deleting the device input:', error);
+                });
+        }
+    }
+</script>
+{% endblock content %}

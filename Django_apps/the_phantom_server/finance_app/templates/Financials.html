@@ -1,0 +1,846 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+
+{% block content %}
+
+<div class="container">
+  {% if is_finance %}
+  <div class="row">
+    <div class="col-12 mb-3 table-space p-0">
+      <div class="card card-body bg-gray-800">
+        <h5>LOS Analysis</h5>
+        <form method="get" action="{% url 'Financials' %}" id="finance">
+          <div class="dropdown-container row mb-3">
+            <!-- Dropdowns for Main Table -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 mb-sm-0">
+              <select class="form-select custom-select " aria-label="Large select example" name="period" id="period">
+                {% if period == "acctg_period" %}
+                <option>Period Type</option>
+                <option value="acctg_period" selected>Accounting Date</option>
+                <option value="activity_date">Activity Date</option>
+                {% elif period == "activity_date" %}
+                <option>Period Type</option>
+                <option value="acctg_period">Accounting Date</option>
+                <option value="activity_date" selected>Activity Date</option>
+                {% else %}
+                <option selected>Period Type</option>
+                <option value="acctg_period">Accounting Date</option>
+                <option value="activity_date">Activity Date</option>
+                {% endif %}
+              </select>
+            </div>
+            <!-- Add more dropdowns for Main Table as needed -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <select class="form-select custom-select " aria-label="Large select example">
+                <option selected>Operator</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <!-- Add more dropdowns for Main Table as needed -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <select class="form-select custom-select " aria-label="Large select example" name="range" id="range">
+                {% if range == "6" %}
+                <option>Range</option>
+                <option value="6" selected>6 Months</option>
+                <option value="12">12 Months</option>
+                <option value="18">18 Months</option>
+                <option value="24">24 Months</option>
+                {% elif range == "12" %}
+                <option>Range</option>
+                <option value="6">6 Months</option>
+                <option value="12" selected>12 Months</option>
+                <option value="18">18 Months</option>
+                <option value="24">24 Months</option>
+                {% elif range == "18" %}
+                <option>Range</option>
+                <option value="6">6 Months</option>
+                <option value="12">12 Months</option>
+                <option value="18" selected>18 Months</option>
+                <option value="24">24 Months</option>
+                {% elif range == "24" %}
+                <option>Range</option>
+                <option value="6">6 Months</option>
+                <option value="12">12 Months</option>
+                <option value="18">18 Months</option>
+                <option value="24" selected>24 Months</option>
+                {% else %}
+                <option selected>Range</option>
+                <option value="6">6 Months</option>
+                <option value="12">12 Months</option>
+                <option value="18">18 Months</option>
+                <option value="24">24 Months</option>
+                {% endif %}
+              </select>
+            </div>
+            <!-- Add more dropdowns for Main Table as needed -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <select class="form-select custom-select " aria-label="Large select example" name="additional">
+                <option selected>additional</option>
+                <option value="1">6 Months</option>
+                <option value="2">12 Months</option>
+                <option value="3">18 Months</option>
+                <option value="4">24 Months</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <div class="mb-1">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active" onclick="accountsPdf()">
+              <input type="radio" name="options" id="option1" checked autocomplete="off"> Export PDF
+            </label>
+            <label class="btn btn-secondary" onclick="accountsCsv()">
+              <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+            </label>
+          </div>
+        </div>
+        <div class="finance-table table-responsive">
+          <div class="col-md-12 p-0">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <table class="table table-condensed table-striped bg-gray-800">
+
+                  <thead class="sticky-header">
+                    <tr>
+                      <th class="w-300">Period</th>
+                      {% for column_name in column_names %}
+                      <th class="fixed-td">{{ column_name }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <div>
+                      <tr data-toggle="collapse" data-target="#gasSales" class="accordion-toggle"
+                        onclick="showHideGasBtnEye()">
+                        <td class="d-flex align-items-center cursor-pointer">
+                          <button class="btn btn-default btn-xs  plus-minus p-0" id="gasSalesBtn">
+                          </button>
+                          <div>GAS SALES</div>
+                        </td>
+                        {% with var1_length=column_names|length var2_length=gas_data_net_revenue|length %}
+                        {% with gas_data_net_revenue_length=var1_length|subtract_length:var2_length %}
+                        {% for row in gas_data_net_revenue %}
+                        <td class="fixed-td">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                          </svg>
+                          {{ row.Net_Revenue|floatformat:2|intcomma }}
+                        </td>
+                        {% endfor %}
+                        {% if gas_data_net_revenue_length > 0 %}
+                        {% for _ in "x"|ljust:gas_data_net_revenue_length %}
+                        <td class="fixed-td"></td>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% endwith %}
+                      </tr>
+                      <tr>
+                        <td colspan="{{col_length}}" class="hiddenRow">
+                          <div class="accordian-body collapse" id="gasSales">
+                            <table class="table-fixed bg-white w-100">
+                              <thead>
+                                <tr class="p-0">
+                                  <!-- <input type="hidden" id="ColumnHead" value="{{ column_names }}" /> -->
+                                  <th></th>
+                                  {% for column_name in column_names %}
+                                  <th></th>
+                                  {% endfor %}
+                                </tr>
+                              </thead>
+
+                              {% with var1_length=column_names|length var2_length=gas_data|length %}
+                              {% with gas_length=var1_length|subtract_length:var2_length %}
+                              <tr>
+                                <td class="first-row-width">Gas Sales</td>
+                                {% for row in gas_data %}
+                                <td>{{ row.Amount|floatformat:2|intcomma }}</td>
+                                {% endfor %}
+                                {% if gas_length > 0 %}
+                                {% for _ in "x"|ljust:gas_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                <td class="first-row-width">Gas Volume</td>
+                                {% for row in gas_data %}
+                                <td class="fixed-td">{{ row.Qty|floatformat:2|intcomma }}</td>
+                                {% endfor %}
+                                {% if gas_length > 0 %}
+                                {% for _ in "x"|ljust:gas_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                <td class="first-row-width">$/Unit</td>
+                                {% for row in gas_data %}
+                                <td class="fixed-td">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                                  </svg>
+                                  {{ row.unitcost|floatformat:2|intcomma }}
+                                </td>
+                                {% endfor %}
+                                {% if gas_length > 0 %}
+                                {% for _ in "x"|ljust:gas_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+                              {% endwith %}
+                              {% endwith %}
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </div>
+
+                    <div>
+                      <tr data-toggle="collapse" data-target="#oilAndCondensate" class="accordion-toggle"
+                        onclick="showHideOilAndCondensateBtnEye()">
+                        <td class="d-flex align-items-center cursor-pointer">
+                          <button class="btn btn-default btn-xs plus-minus p-0 " id="oilAndCondensateBtn"></button>
+                          <div>
+                            OIL AND CONDENSATE SALES
+                          </div>
+                          {% with var1_length=column_names|length var2_length=oil_data_net_revenue|length %}
+                          {% with oil_data_net_revenue_length=var1_length|subtract_length:var2_length %}
+                          {% for row in oil_data_net_revenue %}
+                          <td class="fixed-td">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                              <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                            </svg>
+                            {{ row.Net_Revenue|floatformat:2|intcomma }}
+                          </td>
+                          {% endfor %}
+                          {% if oil_data_net_revenue_length > 0 %}
+                          {% for _ in "x"|ljust:oil_data_net_revenue_length %}
+                          <td class="fixed-td"></td>
+                          {% endfor %}
+                          {% endif %}
+                          {% endwith %}
+                          {% endwith %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="{{col_length}}" class="hiddenRow">
+                          <div class="accordian-body collapse" id="oilAndCondensate">
+                            <table class="table bg-white">
+                              <thead>
+                                <tr class="p-0">
+                                  <th></th>
+                                  {% for column_name in column_names %}
+                                  <th></th>
+                                  {% endfor %}
+                                </tr>
+                              </thead>
+                              {% with var1_length=column_names|length var2_length=oil_data|length %}
+                              {% with oil_length=var1_length|subtract_length:var2_length %}
+                              <tr>
+                                <td class="first-row-width">Volume (BBLS)</td>
+                                {% for row in oil_data %}
+                                <td class="fixed-td">{{ row.Qty|floatformat:2|intcomma }}</td>
+                                {% endfor %}
+                                {% if oil_length > 0 %}
+                                {% for _ in "x"|ljust:oil_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                <td class="first-row-width">Revenue</td>
+                                {% for row in oil_data %}
+                                <td>{{ row.Amount|floatformat:2|intcomma }}</td>
+                                {% endfor %}
+                                {% if oil_length > 0 %}
+                                {% for _ in "x"|ljust:oil_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                <td class="first-row-width">Ave Price Per BBl</td>
+                                {% for row in oil_data %}
+                                <td class="fixed-td">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                                  </svg>
+                                  {{ row.unitcost|floatformat:2|intcomma }}
+                                </td>
+                                {% endfor %}
+                                {% if oil_length > 0 %}
+                                {% for _ in "x"|ljust:oil_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+                              {% endwith %}
+                              {% endwith %}
+
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </div>
+
+                    <div>
+                      <tr data-toggle="collapse" data-target="#naturalGasLiquids" class="accordion-toggle"
+                        onclick="showHideNaturalGasLiquidsBtn()">
+                        <td class="d-flex align-items-center cursor-pointer">
+                          <button class="btn btn-default btn-xs plus-minus p-0" id="naturalGasLiquidsBtn"></button>
+                          <div>NATURAL GAS LIQUIDS SALES</div>
+                        </td>
+                        {% with var1_length=column_names|length var2_length=ngl_data_net_revenue|length %}
+                        {% with ngl_data_net_revenue_length=var1_length|subtract_length:var2_length %}
+                        {% for row in ngl_data_net_revenue %}
+                        <td class="fixed-td">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                          </svg>
+                          {{ row.Net_Revenue|floatformat:2|intcomma }}
+                        </td>
+                        {% endfor %}
+                        {% if ngl_data_net_revenue_length > 0 %}
+                        {% for _ in "x"|ljust:ngl_data_net_revenue_length %}
+                        <td class="fixed-td"></td>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% endwith %}
+                      </tr>
+                      <tr>
+                        <td colspan="{{col_length}}" class="hiddenRow">
+                          <div class="accordian-body collapse" id="naturalGasLiquids">
+                            <table class="table bg-white">
+                              <thead>
+                                <tr class="p-0">
+                                  <th></th>
+                                  {% for column_name in column_names %}
+                                  <th></th>
+                                  {% endfor %}
+                                </tr>
+                              </thead>
+                              {% with var1_length=column_names|length var2_length=ngl_data|length %}
+                              {% with ngl_length=var1_length|subtract_length:var2_length %}
+                              <tr>
+                                <td class="first-row-width">Volume (BBLs)</td>
+                                {% for row in ngl_data %}
+                                <td class="fixed-td">{{ row.Qty|floatformat:2|intcomma }}</td>
+                                {% endfor %}
+                                {% if ngl_length > 0 %}
+                                {% for _ in "x"|ljust:ngl_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                <td class="first-row-width">Revenue</td>
+                                {% for row in ngl_data %}
+                                <td class="fixed-td">{{ row.Amount|floatformat:2|intcomma }}</td>
+                                {% endfor %}
+                                {% if ngl_length > 0 %}
+                                {% for _ in "x"|ljust:ngl_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                <td class="first-row-width">Ave Price Per BBls</td>
+                                {% for row in ngl_data %}
+                                <td class="fixed-td">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                                  </svg>
+                                  {{ row.unitcost|floatformat:2|intcomma }}
+                                </td>
+                                {% endfor %}
+                                {% if ngl_length > 0 %}
+                                {% for _ in "x"|ljust:ngl_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+                              {% endwith %}
+                              {% endwith %}
+
+                              {% with var1_length=column_names|length var2_length=g_and_p_data|length %}
+                              {% with g_and_p_length=var1_length|subtract_length:var2_length %}
+                              <tr>
+                                <td class="first-row-width">Gathering and Marketing Fees</td>
+                                {% for row in g_and_p_data %}
+                                <td class="fixed-td">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                                  </svg>
+                                  {{ row.Amount|floatformat:2|intcomma }}
+                                </td>
+                                {% endfor %}
+                                {% if g_and_p_length > 0 %}
+                                {% for _ in "x"|ljust:g_and_p_length %}
+                                <td class="fixed-td"></td>
+                                {% endfor %}
+                                {% endif %}
+                              </tr>
+                              {% endwith %}
+                              {% endwith %}
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </div>
+
+                    <div>
+                      <tr colspan="{{col_length}}" data-toggle="collapse" class="accordion-toggle tsrTR">
+                        <td class="without-btn">TOTAL SALES REVENUE</td>
+                        {% with var1_length=column_names|length var2_length=total_revenue_data|length %}
+                        {% with total_revenue_length=var1_length|subtract_length:var2_length %}
+                        {% for row in total_revenue_data %}
+                        <td class="fixed-td">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                          </svg>
+                          {{ row.Amount|floatformat:2|intcomma }}
+                        </td>
+                        {% endfor %}
+                        {% if total_revenue_length > 0 %}
+                        {% for _ in "x"|ljust:total_revenue_length %}
+                        <td class="fixed-td"></td>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% endwith %}
+                      </tr>
+                    </div>
+
+                    <div>
+                      <tr data-toggle="collapse" data-target="#leaseOperatingExpenses" class="accordion-toggle"
+                        onclick="showHideLeaseOperatingExpensesBtn()">
+                        <td class="d-flex align-items-center cursor-pointer">
+                          <button class="btn btn-default btn-xs plus-minus p-0" id="leaseOperatingExpensesBtn"></button>
+                          <div>LEASE OPERATING EXPENSES</div>
+                        </td>
+                        {% with var1_length=column_names|length var2_length=lease_operating_expenses_net_revenue|length %}
+                        {% with lease_operating_expenses_net_revenue_length=var1_length|subtract_length:var2_length %}
+                        {% for row in lease_operating_expenses_net_revenue %}
+                        <td class="fixed-td">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                          </svg>
+                          {{ row.Net_Revenue|floatformat:2|intcomma }}
+                        </td>
+                        {% endfor %}
+                        {% if lease_operating_expenses_net_revenue_length > 0 %}
+                        {% for _ in "x"|ljust:lease_operating_expenses_net_revenue_length %}
+                        <td class="fixed-td"></td>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% endwith %}
+                      </tr>
+                      <tr>
+                        <td colspan="{{col_length}}" class="hiddenRow">
+                          <div class="accordian-body collapse" id="leaseOperatingExpenses">
+                            <table class="table-fixed bg-white w-100">
+                              <thead>
+                                <tr class="p-0">
+                                  <th></th>
+                                  {% for column_name in column_names %}
+                                  <th></th>
+                                  {% endfor %}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for account, data in lease_operating_expenses.items %}
+                                <tr>
+                                  <td class="w-300">{{ account }}</td>
+
+                                  {% for amount in data.Amount %}
+                                  <td class="fixed-td">{{ amount|floatformat:2|intcomma }}</td>
+                                  {% endfor %}
+                                  <!--Adding Blank td-->
+                                  {% with var1_length=column_names|length var2_length=data.Amount|length %}
+                                  {% with amount_length=var1_length|subtract_length:var2_length %}
+                                  {% if amount_length > 0 %}
+                                  {% for _ in "x"|ljust:amount_length %}
+                                  <td class="fixed-td"></td>
+                                  {% endfor %}
+                                  {% endif %}
+                                  {% endwith %}
+                                  {% endwith %}
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </div>
+
+                    <div>
+                      <tr colspan="{{col_length}}" class="toggle-row tloeTR" id="Exp">
+                        <td class="without-btn">TOTAL LEASE OPERATING EXPENSES</td>
+                        {% with var1_length=column_names|length var2_length=total_LOE|length %}
+                        {% with total_LOE_length=var1_length|subtract_length:var2_length %}
+                        {% for row in total_LOE %}
+                        <td class="fixed-td">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                          </svg>
+                          {{ row.Amount|floatformat:2|intcomma }}
+                        </td>
+                        {% endfor %}
+                        {% if total_LOE_length > 0 %}
+                        {% for _ in "x"|ljust:total_LOE_length %}
+                        <td class="fixed-td"></td>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% endwith %}
+                      </tr>
+                    </div>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mb-3">
+      <div class="card card-body bg-gray-800">
+        <h5>Table 1</h5>
+        <div class="finance-table-2 table-responsive">
+
+          <table class="table">
+            <!-- Table 1 content here -->
+            <thead>
+              <tr>
+                <th class="min-140 table-secondary" scope="col">Header A</th>
+                <th class="min-140 table-secondary" scope="col">Header B</th>
+                <th class="min-140 table-secondary" scope="col">Header C</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Row 1, Cell A</td>
+                <td>Row 1, Cell B</td>
+                <td>Row 1, Cell C</td>
+              </tr>
+              <tr>
+                <td>Row 2, Cell A</td>
+                <td>Row 2, Cell B</td>
+                <td>Row 2, Cell C</td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mb-3">
+      <div class="card card-body bg-gray-800">
+        <h5>Table 2</h5>
+        <div class="finance-table-2 table-responsive">
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="min-140 table-secondary" scope="col">Header A</th>
+                <th class="min-140 table-secondary" scope="col">Header B</th>
+                <th class="min-140 table-secondary" scope="col">Header C</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Row 1, Cell A</td>
+                <td>Row 1, Cell B</td>
+                <td>Row 1, Cell C</td>
+              </tr>
+              <tr>
+                <td>Row 2, Cell A</td>
+                <td>Row 2, Cell B</td>
+                <td>Row 2, Cell C</td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mb-3">
+      <div class="card card-body bg-gray-800">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>Bokeh Chart</h5>
+          <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+              class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Include Bokeh plot script and div -->
+        {{ div_line_chart1|safe }}
+        {{ script_line_chart1|safe }}
+      </div>
+    </div>
+
+    <!-- Single line day gas data chart -->
+    <div class="col-12 mb-3 col-md-6">
+      <div class="card card-body bg-gray-800">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>GAS SALES CHART</h5>
+          <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupGasChart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+              class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Include Bokeh plot script and div -->
+        {% if div_gas_data_chart and script_gas_data_chart %}
+        {{ div_gas_data_chart|safe }}
+        {{ script_gas_data_chart|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Single line day OIL AND CONDENSATE SALES CHART -->
+    <div class="col-12 mb-3 col-md-6">
+      <div class="card card-body bg-gray-800">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>OIL AND CONDENSATE SALES CHART</h5>
+          <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupOilChart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+              class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Include Bokeh plot script and div -->
+        {% if div_oil_data_chart and script_oil_data_chart %}
+        {{ div_oil_data_chart|safe }}
+        {{ script_oil_data_chart|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Single line day NATURAL GAS LIQUIDS SALES CHART -->
+    <div class="col-12 mb-3 col-md-6">
+      <div class="card card-body bg-gray-800">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>NATURAL GAS LIQUIDS SALES CHART</h5>
+          <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupNaturalChart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+              class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Include Bokeh plot script and div -->
+        {% if div_ngl_data_chart and script_ngl_data_chart  %}
+        {{ div_ngl_data_chart|safe }}
+        {{ script_ngl_data_chart|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Single line day LEASE OPERATING EXPENSES CHART -->
+    <div class="col-12 mb-3 col-md-6">
+      <div class="card card-body bg-gray-800">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>LEASE OPERATING EXPENSES CHART</h5>
+          <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLeaseChart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+              class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Include Bokeh plot script and div -->
+        {% if div_lease_operating_expenses_data_chart and  script_lease_operating_expenses_data_chart %}
+        {{ div_lease_operating_expenses_data_chart|safe }}
+        {{ script_lease_operating_expenses_data_chart|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+  <!-- Popup Line Chart 1 -->
+  <div class="modal fade chart-main" id="popupLineChart1" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3 mb-0">Chart 1</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </div>
+          {{ popup_div_line_chart1|safe }}
+          {{ popup_script_line_chart1|safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup GAS SALES CHART -->
+  <div class="modal fade chart-main" id="popupGasChart" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3 mb-0">GAS SALES CHART</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </div>
+          {% if popup_div_gas_data_chart and popup_script_gas_data_chart %}
+          {{ popup_div_gas_data_chart|safe }}
+          {{ popup_script_gas_data_chart|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup OIL AND CONDENSATE SALES CHART -->
+  <div class="modal fade chart-main" id="popupOilChart" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3 mb-0">OIL AND CONDENSATE SALES CHART</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </div>
+          {% if popup_div_oil_data_chart and popup_script_oil_data_chart %}
+          {{ popup_div_oil_data_chart|safe }}
+          {{ popup_script_oil_data_chart|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup NATURAL GAS LIQUIDS SALES CHART -->
+  <div class="modal fade chart-main" id="popupNaturalChart" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3 mb-0">NATURAL GAS LIQUIDS SALES CHART</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </div>
+          {% if popup_div_ngl_data_chart and popup_script_ngl_data_chart %}
+          {{ popup_div_ngl_data_chart|safe }}
+          {{ popup_script_ngl_data_chart|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup LEASE OPERATING EXPENSES CHART -->
+  <div class="modal fade chart-main" id="popupLeaseChart" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3 mb-0">LEASE OPERATING EXPENSES CHART</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </div>
+          {% if popup_div_lease_operating_expenses_data_chart and popup_script_lease_operating_expenses_data_chart %}
+          {{ popup_div_lease_operating_expenses_data_chart|safe }}
+          {{ popup_script_lease_operating_expenses_data_chart|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title text-center">Permission Denied!</h5>
+          <p class="card-text">You don't have permission to access this page.</p>
+          <p class="card-text">Please Contact Your Admin!</p>
+          <p class="card-text">Thank You</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endblock %}

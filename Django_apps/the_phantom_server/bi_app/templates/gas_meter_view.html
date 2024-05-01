@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+<h1>all Gas</h1>
+
+<!-- Dynamic list group -->
+<ul class="gas-overflow list-group">
+
+    {% for gas in gas_list%} 
+        <li class="list-group-item selectable-text">
+            <button type="button" class="meterptid-btn btn btn-primary">
+                {{ gas.meterptid }}
+            </button>
+       </li>
+    {% endfor %}
+</ul>
+
+<!-- Rest of your content -->
+{% endblock %}

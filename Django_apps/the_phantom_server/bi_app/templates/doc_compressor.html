@@ -1,0 +1,167 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container px-0 px-lg-3">
+    <div class="card perent-card bg-gray-800 m-0 m-lg-3">
+        <div class="card-body">
+
+            <div class="row ">
+                <!-- Tables -->
+                <div class="col-12 mb-3">
+                    <h2>Doc Compressor Entry</h2>
+                </div>
+                <div class="col-12 mb-3 dark-text">
+                    {% if submitted %}
+                    <div id="successMessage">
+                        Successfully Saved! Redirecting in <span id="doccompresscountdown">2</span> seconds...
+                    </div>
+
+                </div>
+                {% else %}
+                <div>
+
+                    <form action="" class="row gas_meter" method="POST">
+                        {% csrf_token %}
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4  ">
+                            {{ form.docdate.label_tag }}
+                            <div class="d-sm-flex" style="gap: 10px;">
+                                {{ form.docdate }}
+                            </div>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="docidgasmeterreadings">
+                                Ambient Temperature:
+                            </label>
+                            {{ form.ambienttemp }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="userid">
+                                Userid:
+                            </label>
+                            {{ form.userid }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="temperature">
+                                Discharge Temperature:
+                            </label>
+                            {{ form.dischargetemperature }}
+                        </div>
+
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                Suction Temperature:
+                            </label>
+                            {{ form.suctiontemperature }}
+                        </div>
+
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="linepressure">
+                                Water Temperature:
+                            </label>
+                            {{ form.watertemp }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Oil Pressure:
+                            </label>
+                            {{ form.oilpressure }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Oil Temperature:
+                            </label>
+                            {{ form.oiltemp }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                RPM:
+                            </label>
+                            {{ form.rpm }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Suction Pressure:
+                            </label>
+                            {{ form.suctionpressure }}
+                        </div>
+
+                        {% if errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please correct the following errors:
+                            {{ errors }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mb-3">
+                            <div class="row justify-content-center">
+
+                                <div class="">
+
+                                    <input type="submit" value="Submit" class="btn btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div class="col-12">
+                        <div class="mb-1">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-secondary active" onclick="docCompressorPDF()">
+                                <input type="radio" name="options" id="option1" checked autocomplete="off"> Export PDF
+                              </label>
+                              <label class="btn btn-secondary" onclick="docCompressorCSV()">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+                              </label>
+                            </div>
+                          </div>
+                        <div class="table-responsive">
+                            <table class="table bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="min-120 table-secondary" scope="col">Docdate</th>
+                                        <th class="min-120 table-secondary" scope="col">Ambient Temperature</th>
+                                        <th class="min-120 table-secondary" scope="col">User ID</th>
+                                        <th class="min-140 table-secondary" scope="col">Discharge Temperature</th>
+                                        <th class="min-140 table-secondary" scope="col">Suction Temperature</th>
+                                        <th class="min-140 table-secondary" scope="col">Water Temperature</th>
+                                        <th class="min-140 table-secondary" scope="col">Oil Pressure</th>
+                                        <th class="min-140 table-secondary" scope="col">Oil Temperature</th>
+                                        <th class="min-140 table-secondary" scope="col">RPM</th>
+                                        <th class="min-140 table-secondary" scope="col">Suction Pressure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if latest_records %}
+                                        {% for record in latest_records %}
+                                        <tr>
+                                            <td>{{record.docdate|date:"M d, Y"}}</td>
+                                            <td>{{ record.ambienttemp|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.userid }}</td>
+                                            <td>{{ record.dischargetemperature|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.suctiontemperature|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.watertemp|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.oilpressure|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.oiltemp|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.rpm|floatformat:2|intcomma }}</td>
+                                            <td>{{ record.suctionpressure|floatformat:2|intcomma }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4" class="text-center">No Record Found</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}

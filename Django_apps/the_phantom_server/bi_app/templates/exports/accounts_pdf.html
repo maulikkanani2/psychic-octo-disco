@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block cssblock %}
+{% include "css_block.html" %}
+{% endblock cssblock %}
+
+{% block pdfcontent %}
+<div class="container">
+    <div class="card bg-gray-800 mx-0 mb-0 p-3">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h2 style="text-align: center;">Account Data</h2>
+            </div>
+            <div class="col-12 mb-3">
+                <table class="table bg-white" border="1">
+                    <thead>
+                        <tr class="gas-head" style="padding-top: 5px; padding-left: 5px;">
+                            <th>Period</th>
+                            <th>Volume</th>
+                            <th>Revenue</th>
+                            <th>Ave Price</th>
+                        </tr>
+                    </thead>
+                    <th style="padding-top: 5px; padding-left: 5px;">GAS SALES</th>
+                    <tbody>
+                        {%for row in gas_data %}
+                        <tr style="padding-top: 5px; padding-left: 5px;">
+                            <td>
+                                {{ row.Period }}
+                            </td>
+                            <td>
+                                {{ row.Qty|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.Amount|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.unitcost|floatformat:2|intcomma }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <th style="padding-top: 5px; padding-left: 5px;">OIL AND CONDENSATE SALES</th>
+                    <tbody>
+                        {% for row in oil_data %}
+                        <tr class="pl-0" style="padding-top: 5px; padding-left: 5px;">
+                            <td>
+                                {{ row.Period }}
+                            </td>
+                            <td>
+                                {{ row.Qty|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.Amount|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.unitcost|floatformat:2|intcomma }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <th style="padding-top: 5px; padding-left: 5px;">NATURAL GAS LIQUIDS SALES</th>
+                    <tbody>
+                        {% for row in ngl_data %}
+                        <tr class="pl-0" style="padding-top: 5px; padding-left: 5px;">
+                            <td>
+                                {{ row.Period }}
+                            </td>
+                            <td>
+                                {{ row.Qty|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.Amount|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.unitcost|floatformat:2|intcomma }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <th style="padding-top: 5px; padding-left: 5px;">Gathering and Marketing Fees</th>
+                    <tbody>
+                        {% for row in g_and_p_data %}
+                        <tr class="pl-0" style="padding-top: 5px; padding-left: 5px;">
+                            <td>
+                                {{ row.Period }}
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                {{ row.Amount|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <th style="padding-top: 10px; padding-left: 5px;">TOTAL SALES REVENUE</th>
+                    <tbody>
+                        {% for row in total_revenue_data %}
+                        <tr class="pl-0" style="padding-top: 5px; padding-left: 5px;">
+                            <td>
+                                {{ row.Period }}
+                            </td>
+                            <td>
+                                {{ row.Qty|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.Amount|floatformat:2|intcomma }}
+                            </td>
+                            <td>
+                                {{ row.unitcost|floatformat:2|intcomma }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <!-- <th style="padding-top: 10px; padding-left: 5px;">LEASE OPERATING EXPENSES</th>
+                    <tbody>
+                        {% for account, data in lease_operating_expenses.items %}
+                        <tr>
+                            <div>{{account}}</div>
+                        </tr>
+                        <tr style="padding-top: 10px; padding-left: 5px;">{{account}}</tr>
+                        <tr>
+                            <td style="padding-top: 10px; padding-left: 5px;">{{ account }}</td>
+                            {% for item in data %}
+                            <tr style="padding-top: 10px; padding-left: 5px;">{{ item.Amount|floatformat:2|intcomma }}</tr>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody> -->
+
+                    <!-- <tbody>
+                        <tr>
+                            <th style="padding-top: 10px; padding-left: 5px;">TOTAL LEASE OPERATING EXPENSES</th>
+                            <td></td>
+                            {% for row in total_LOE %}
+                            <td style="padding-top: 10px; padding-left: 5px;">{{ row.Amount|floatformat:2|intcomma }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody> -->
+                    <!-- <th style="padding-top: 10px; padding-left: 5px;">Expenses</th>
+                    <tbody>
+                        <tr>
+                            <td style="padding-top: 10px; padding-left: 5px;">01</td>
+                            <td></td>
+                            <td style="padding-top: 10px; padding-left: 5px;">Subcategory B.1</td>
+                            <td style="padding-top: 10px; padding-left: 5px;">Description B.1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 10px; padding-left: 5px;">02</td>
+                            <td></td>
+                            <td style="padding-top: 10px; padding-left: 5px;">Subcategory B.2</td>
+                            <td style="padding-top: 10px; padding-left: 5px;">Description B.2</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 10px; padding-left: 5px;">03</td>
+                            <td></td>
+                            <td style="padding-top: 10px; padding-left: 5px;">Subcategory B.3</td>
+                            <td style="padding-top: 10px; padding-left: 5px;">Description B.3</td>
+                        </tr>
+                    </tbody> -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock pdfcontent %}
+
+{% block script %}
+{% include "script_block.html" %}
+{% endblock script %}

@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+
+{% block content %}
+<p class="lead">Production Charts</p>
+<!-- Loading overlay with spinner -->
+
+
+<div>
+  {{ div|safe}}
+  {{ script|safe }}
+</div>
+<!-- Custom CSS for styling the Bokeh DataTable-->
+{% endblock %}

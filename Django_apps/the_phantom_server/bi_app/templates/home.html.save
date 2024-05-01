@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="card bg-gray-800">
+    <div class="card-body">
+      <div class="row content">
+
+
+
+          <div class="well col-12">
+            <h2>Dashboard</h2>
+            <p>Some text..</p>
+          </div>
+
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table bg-white">
+                <thead>
+                  <tr>
+                    <th scope="col" class="min-140 table-secondary">
+                      <h5>Users</h5>
+                      <p class="mb-0">1 Million</p>
+                    </th>
+                    <th scope="col" class="min-140 table-secondary">
+                      <h5>Pages</h5>
+                      <p class="mb-0">100 Million</p>
+                    </th>
+                    <th scope="col" class="min-140 table-secondary">
+                      <h5>Sessions</h5>
+                      <p class="mb-0">10 Million</p>
+                    <th scope="col" class="min-140 table-secondary">
+                      <h5>Bounce</h5>
+                      <p class="mb-0">30%</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Text</td>
+                    <td>Text</td>
+                    <td>Text</td>
+                    <td>Text</td>
+                  </tr>
+                  <tr>
+                    <td>Text</td>
+                    <td>Text</td>
+                    <td>Text</td>
+                    <td>Text</td>
+                  </tr>
+                  <tr>
+                    <td>Text</td>
+                    <td>Text</td>
+                    <td>Text</td>
+                    <td>Text</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

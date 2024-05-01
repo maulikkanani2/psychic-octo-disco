@@ -1,0 +1,99 @@
+from django.shortcuts import render, HttpResponse
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.utils import timezone
+from datetime import timedelta
+from . models import Trans,Cc,Coa,Name,Voucher
+def process_data(queryset):
+    # Convert queryset to DataFrame
+    df = pd.DataFrame(list(queryset))
+    # Further data processing here
+    return df
+
+
+def create_alias_mapping(df, column1, column2):
+    # Creating a dictionary for alias mapping
+    alias_mapping = dict(zip(df[column1], df[column2]))
+
+    return alias_mapping
+
+def merge_dataframes(df1, df2, common_column, how='inner'):
+    """
+    Merge two data frames on a common column.
+
+    :param df1: First DataFrame.
+    :param df2: Second DataFrame.
+    :param common_column: The name of the column to merge on.
+    :param how: Type of merge to be performed.
+               'left': use only keys from left frame (SQL left outer join)
+               'right': use only keys from right frame (SQL right outer join)
+               'outer': use union of keys from both frames (SQL full outer join)
+               'inner': use intersection of keys from both frames (SQL inner join)
+    :return: Merged DataFrame.
+    """
+    return pd.merge(df1, df2, on=common_column, how=how)
+
+def process_data(queryset):
+    # Convert queryset to DataFrame
+    df = pd.DataFrame(list(queryset))
+    # Further data processing here
+    return df
+
+def rename_columns(df, value_columns=None, new_column_names=None):
+    if value_columns is None or new_column_names is None:
+        # Handle the case where one or both parameters are not provided
+        raise ValueError("Both value_columns and new_column_names must be provided")
+
+    if len(value_columns) != len(new_column_names):
+        # Handle the case where the length of the lists don't match
+        raise ValueError("value_columns and new_column_names must be of the same length")
+
+    rename_dict = {old: new for old, new in zip(value_columns, new_column_names)} 
+    df.rename(columns=rename_dict, inplace=True)
+    return df
+
+
+def my_view(request):
+    # acount alias mapping 
+    queryset = coa.objects.all.values('u2_id', 'name')
+    coa_df = process_data(queryset)
+    account_Alias_map = create_alias_mapping(coa_df,'u2_id','name')
+    # name alias mapping
+    queryset = name.objects.all.values('u2_id', 'name')
+    name_df = process_data(queryset)
+    account_Alias_map = create_alias_mapping(name_df,'u2_id','name')
+    # cost_center alias mapping
+    queryset = cc.objects.all.values('u2_id', 'name')
+    cc_df = process_data(queryset)
+    account_Alias_map = create_alias_mapping(name_df,'u2_id','name')
+
+    # cost_center alias mapping
+    queryset = voucher.objects.all.values('u2_id', 'name')
+    voucher_df = process_data(queryset)
+    voucher_Alias_map = create_alias_mapping(name_df,'u2_id','vou_src')
+
+    # ptproduction df
+    queryset = ptsproductionpt.objects.all.values('userdata1','userdata8', 'userdata11','userdata18') #8 = field, 11=lift type, 18 well type , 1 = cc
+    pt_df = process_data(queryset)
+    value_columns = ['userdata1','userdata8', 'userdata11','userdata18']
+    new_column_names = ['COST_CENTER','Field','Lift_type','Well_type']
+    pt_df = rename_columns(pt_df,
+
+    thirty_months_ago = datetime.now() - relativedelta(months=30)
+    # Fetch and process data, selecting only certain columns
+    queryset = TRANS.objects.filter(date_field__gte=thirty_months_ago).values('ACCT', 'ACCTG_PERIOD','ACTIVITY_DATE','AMT','NAME','COST_CENTER','VOUCHER')
+    trans_df = process_data(queryset)
+    trans_df = merge_dataframes(trans_df,pt_df,COST_CENTER,how='left)
+    trans_df['ACCT'] = trans_df['ACCT'].replace(account_alias_map)
+    trans_df['ACCT'] = trans_df['ACCT'].replace(account_alias_map)
+    trans_df['ACCT'] = trans_df['ACCT'].replace(account_alias_map)
+    trans_df['ACCT'] = trans_df['ACCT'].replace(account_alias_map)
+    trans_df['ACCT'] = trans_df['ACCT'].replace(account_alias_map)
+    trans_df['ACCT'] = trans_df['ACCT'].replace(account_alias_map)
+    # Rest of the view logic, including preparing data for the template
+    # ...
+
+    return render(request, 'my_template.html', context)
+
+def home(request):
+    return HttpResponse("hello world")

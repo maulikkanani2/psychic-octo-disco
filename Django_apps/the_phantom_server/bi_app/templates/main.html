@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block cssblock %}
+{% include "css_block.html" %}
+{% endblock cssblock %}
+
+{% block header %}
+<!-- Navbar with Bootstrap 4 styling -->
+<nav class="navbar navbar-expand-lg py-0">
+    <a class="navbar-brand" href="/" id="logo_dark_light"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <div class="flex-grow-1">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="productionDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Production
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="productionDropdown">
+                        <li><a class="dropdown-item" href="{% url 'cons_view'%}">Consolidated Production</a></li>
+                        <li><a class="dropdown-item" href="{% url 'production_analysis_view'%}">Production Analysis</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'well_view'%}">Well Analysis</a></li>
+                        <li><a class="dropdown-item" href="{% url 'realtime_view'%}">Realtime</a></li>
+                        <li><a class="dropdown-item" href="{% url 'oil_inventory_view'%}">Oil Inventory</a></li>
+                        <li><a class="dropdown-item" href="{% url 'wellhead_automation'%}">Well Head Automation</a></li>
+                        <li><a class="dropdown-item" href="{% url 'reserves_view'%}">Reserves</a></li>
+                        <li><a class="dropdown-item" href="{% url 'injection_view'%}">Injection</a></li>
+                        <li><a class="dropdown-item" href="{% url 'gas_meter_input'%}">Gas Meter</a></li>
+                        <li><a class="dropdown-item" href="{% url 'doc_compressor_input'%}">Doc Compressor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'doc_run_tickets_input'%}">Doc Run Tickets</a></li>
+                        <li><a class="dropdown-item" href="{% url 'doc_water_disposition_input'%}">Doc Water
+                                Disposition</a></li>
+                        <li><a class="dropdown-item" href="{% url 'doc_well_tests_input'%}">Doc Well Tests</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create_modem'%}">Modem</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create_device' %}">Device</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create_tag' %}">Tag</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create_device_input' %}">Device Inputes</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="financedropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Finance
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="financedropdown">
+                        <li><a class="dropdown-item" href="{% url 'Financials'%}">Financials</a></li>
+                        <li><a class="dropdown-item" href="{% url 'loe_analytics_view'%}">Loe Analytics</a></li>
+                        <li><a class="dropdown-item" href="{% url 'spend_analysis_view'%}">LOE Detail</a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="automationDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Automation
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="automationDropdown">
+                        <li><a class="dropdown-item" href="#">Transfer pumps</a></li>
+                        <li><a class="dropdown-item" href="#">Mach device setup</a></li>
+                        <li><a class="dropdown-item" href="#">Intermitter</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">LOS Data</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">AFE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'energy' %}">Energy</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex justify-content-between">
+
+            {% if request.user.username %}
+            <div class="btn-group ml-2">
+                <div class="user-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{% static '../static/images/user_avtar.jpg' %}" alt="User" srcset="">
+                </div>
+                <div class="dropdown-menu dropdown-menu-right icon-drop">
+                    <p class="text-secondary text-center">
+                        {{request.user.first_name}}
+                    </p>
+                    <div class="switch-mode">
+                        <p class="mr-14">Light</p>
+                        <div class="custom-control custom-switch d-flex justify-content-center">
+                            <input type="checkbox" class="custom-control-input dark-mode" id="customSwitch1">
+                            <label class="custom-control-label text-white" for="customSwitch1" id="toggleLabel">
+                            </label>
+                        </div>
+                        <p class="pl-14">Dark</p>
+                    </div>
+                    <a class="dropdown-item text-secondary" href="{% url 'profile' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-person" viewBox="0 0 16 16">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                        </svg>
+                        Profile
+                    </a>
+                    <a class="dropdown-item text-secondary" href="{% url 'logout' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
+                            <path fill-rule="evenodd"
+                                d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                        </svg>
+                        Logout
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="btn-group ml-2">
+                <div class="user-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{% static '../static/images/user_avtar.jpg' %}" alt="User" srcset="">
+                </div>
+                <div class="dropdown-menu dropdown-menu-right icon-drop">
+                    <div class="switch-mode ">
+                        <p class="mr-14">Light</p>
+                        <div class="custom-control custom-switch d-flex justify-content-center">
+                            <input type="checkbox" class="custom-control-input dark-mode" id="customSwitch1">
+                            <label class="custom-control-label text-white" for="customSwitch1" id="toggleLabel">
+                            </label>
+                        </div>
+                        <p class="pl-14">Dark</p>
+                    </div>
+                    <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                    <a class="dropdown-item" href="#">Sign up</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+{% endblock header %}
+
+{% block bodycontent %}
+<!-- Page Content -->
+<div class="container px-0 px-lg-2">
+    <div class="row">
+        <div class="col-lg px-0 px-lg-2">
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{message}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            <p>{% block content %}{% endblock %}</p>
+        </div>
+        
+        
+    </div>
+</div>
+{% block energy %}
+    
+{% endblock energy %}
+{% endblock bodycontent %}
+
+{% block script %}
+{% include "script_block.html" %}
+{% endblock script %}

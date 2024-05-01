@@ -1,0 +1,230 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container px-0 px-lg-3">
+    <div class="card perent-card bg-gray-800 m-0 m-lg-3">
+        <div class="card-body">
+
+            <div class="row ">
+                <!-- Tables -->
+                <div class="col-12 mb-3">
+                    <h2>Doc Water Disposition Entry</h2>
+                </div>
+                <div class="col-12 mb-3 dark-text">
+                    {% if submitted %}
+                    <div id="successMessage">
+                        Successfully Saved! Redirecting in <span id="docwatercountdown">2</span> seconds...
+                    </div>
+
+                </div>
+                {% else %}
+                <div>
+
+                    <form action="" class="row gas_meter" method="POST">
+                        {% csrf_token %}
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                User ID:
+                            </label>
+                            {{ form.userid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="docidgasmeterreadings">
+                                Tank ID:
+                            </label>
+                            {{ form.tankid }}
+                        </div>
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4  ">
+                            {{ form.docdate.label_tag }}
+                            <div class="d-sm-flex" style="gap: 10px;">
+                                {{ form.docdate }}
+                            </div>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="userid">
+                                Volume:
+                            </label>
+                            {{ form.volume }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="temperature">
+                                Reason Code:
+                            </label>
+                            {{ form.reasoncode }}
+                        </div>
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                Start Level:
+                            </label>
+                            {{ form.startlevel }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                End Level:
+                            </label>
+                            {{ form.endlevel }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                On Seal:
+                            </label>
+                            {{ form.onseal }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Off Seal:
+                            </label>
+                            {{ form.offseal }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Valve Type ID:
+                            </label>
+                            {{ form.valvetypeid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Disposal Site ID:
+                            </label>
+                            {{ form.disposalsiteid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Transporter ID:
+                            </label>
+                            {{ form.transporterid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Stamp:
+                            </label>
+                            {{ form.stamp }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Notes:
+                            </label>
+                            {{ form.notes }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Input By ID:
+                            </label>
+                            {{ form.inputbyid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Doc Source Code:
+                            </label>
+                            {{ form.docsourcecode }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Noru:
+                            </label>
+                            {{ form.noru }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                New:
+                            </label>
+                            {{ form.new }}
+                        </div>
+
+                        {% if errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please correct the following errors:
+                            {{ errors }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mb-3">
+                            <div class="row justify-content-center">
+
+                                <div class="">
+
+                                    <input type="submit" value="Submit" class="btn btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div class="col-12">
+                        <div class="mb-1">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active" onclick="">
+                                    <input type="radio" name="options" id="option1" checked autocomplete="off"> Export
+                                    PDF
+                                </label>
+                                <label class="btn btn-secondary" onclick="docWaterDispositionCSV()">
+                                    <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+                                </label>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="min-140 table-secondary" scope="col">User ID</th>
+                                        <th class="min-120 table-secondary" scope="col">Tank ID</th>
+                                        <th class="min-120 table-secondary" scope="col">Docdate</th>
+                                        <th class="min-120 table-secondary" scope="col">Volume</th>
+                                        <th class="min-140 table-secondary" scope="col">Reason Code</th>
+                                        <th class="min-120 table-secondary" scope="col">Start Level</th>
+                                        <th class="min-120 table-secondary" scope="col">End Level</th>
+                                        <th class="min-120 table-secondary" scope="col">On Seal</th>
+                                        <th class="min-120 table-secondary" scope="col">Off Seal</th>
+                                        <th class="min-140 table-secondary" scope="col">Valve Type ID</th>
+                                        <th class="min-160 table-secondary" scope="col">Disposal Site ID</th>
+                                        <th class="min-140 table-secondary" scope="col">Transporter ID</th>
+                                        <th class="min-120 table-secondary" scope="col">Stamp</th>
+                                        <th class="min-120 table-secondary" scope="col">Notes</th>
+                                        <th class="min-120 table-secondary" scope="col">Input By ID</th>
+                                        <th class="min-160 table-secondary" scope="col">Doc Source Code</th>
+                                        <th class="min-120 table-secondary" scope="col">Noru</th>
+                                        <th class="min-120 table-secondary" scope="col">New</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if latest_records %}
+                                    {% for record in latest_records %}
+                                    <tr>
+                                        <td>{{ record.userid|default:'None' }}</td>
+                                        <td>{{ record.tankid|intcomma|default:'None' }}</td>
+                                        <td>{{ record.docdate|date:"M d, Y"|default:'None' }}</td>
+                                        <td>{{ record.volume|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.reasoncode|default:'None' }}</td>
+                                        <td>{{ record.startlevel|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.endlevel|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.onseal|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.offseal|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.valvetypeid|intcomma|default:'None' }}</td>
+                                        <td>{{ record.disposalsiteid|intcomma|default:'None' }}</td>
+                                        <td>{{ record.transporterid|intcomma|default:'None' }}</td>
+                                        <td>{{ record.stamp|default:'None' }}</td>
+                                        <td>{{ record.notes|default:'None' }}</td>
+                                        <td>{{ record.inputbyid|intcomma|default:'None' }}</td>
+                                        <td>{{ record.docsourcecode|default:'None' }}</td>
+                                        <td>{{ record.noru|default:'None' }}</td>
+                                        <td>{{ record.new|default:'None' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No Record Found</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

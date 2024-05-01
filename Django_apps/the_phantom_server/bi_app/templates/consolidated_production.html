@@ -1,0 +1,211 @@
+<!-- templates/your_app/your_template.html -->
+
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+
+{% block content %}
+{% if is_error %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title text-center">Error!</h5>
+                <p class="card-text">{{error}}</p>
+                <p class="card-text">Please Contact Your Admin!</p>
+                <p class="card-text">Thank You</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+
+<div class="container px-0 px-lg-2">
+
+    <div class="card bg-gray-800 perent-card mx-0 mb-0 mx-lg-4 mb-lg-4">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Consolidated Production</h2>
+            <form action="{% url 'cons_view' %}" method="get" id="ptridform" hidden>
+                <input type="hidden" name="ptrid" id="ptrid">
+            </form>
+            <div class="row">
+                <div class="oil-card col-12 px-0 px-lg-3 mb-3 col-md-6">
+                    <div class="table-responsive">
+
+                        <table class="table bg-white">
+                            <thead class="table-head thead-secondary">
+                                <tr>
+                                    <th class="table-secondary" scope="col">Name</th>
+                                    <th class="min-120 table-secondary" scope="col">Current Gas</th>
+                                    <th class="min-120 table-secondary" scope="col">Current Oil</th>
+                                    <th class="min-140 table-secondary" scope="col">Current Water</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if ptsproductionpt %}
+                                {% for item in ptsproductionpt %}
+                                {% if productionptid == item.productionptid|to_str %}
+                                <tr class="selectable-row selected">
+                                    <td>{{ item.fieldname }}</td>
+                                    <td>{{ item.allowablegas|floatformat:2|intcomma }}</td>
+                                    <td>{{ item.allowableoil|floatformat:2|intcomma }}</td>
+                                    <td>{{ item.allowablewater|floatformat:2|intcomma }}</td>
+                                </tr>
+                                {% else %}
+                                <tr class="selectable-row row-pointer" onclick="ptrFormSubmit('{{ item.productionptid }}')">
+                                    <td>{{ item.fieldname }}</td>
+                                    <td>{{ item.allowablegas|floatformat:2|intcomma }}</td>
+                                    <td>{{ item.allowableoil|floatformat:2|intcomma }}</td>
+                                    <td>{{ item.allowablewater|floatformat:2|intcomma }}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No Record Found</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="oil-card col-12 col-md-6 px-0 px-lg-3  mb-3 mb-lg-0">
+
+                    <div class="table-responsive">
+
+                        <table class="table bg-white">
+                            <thead class="table-head">
+                                <tr>
+                                    <th class="table-secondary" scope="col">Date</th>
+                                    <th class="min-120 table-secondary" scope="col">Current Gas</th>
+                                    <th class="min-120 table-secondary" scope="col">Current Oil</th>
+                                    <th class="min-140 table-secondary" scope="col">Current Water</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if sumdailyproduction %}
+                                {% for item in sumdailyproduction %}
+                                <tr class="">
+                                    <td>{{ item.docdate|date:"Y-m-d" }}</td>
+                                    <td>{{ item.gas|floatformat:2|intcomma }}</td>
+                                    <td>{{ item.oil|floatformat:2|intcomma }}</td>
+                                    <td>{{ item.water|floatformat:2|intcomma }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No Record Found</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0">
+                    <div class="card card-body bg-gray-800 m-0 m-lg-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Chart 1</h3>
+                            <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal"
+                                data-target="#popupLineChart1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Embed Bokeh Chart 1 Here -->
+                        {{ div_line_chart1|safe }}
+                        {{ script_line_chart1|safe }}
+                    </div>
+                </div>
+
+                <!-- Bokeh Chart 2 -->
+                <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0">
+                    <div class="card card-body bg-gray-800  m-1 m-lg-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Chart 2</h3>
+                            <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal"
+                                data-target="#popupLineChart2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Embed Bokeh Chart 2 Here -->
+                        {{ div_line_chart2|safe }}
+                        {{ script_line_chart2|safe }}
+                    </div>
+
+                </div>
+                <div class="col p-0 p-lg-3">
+                    <!-- Bokeh Chart 1 -->
+
+                    <div class="max-18 card border-primary mb-3 m-1 m-lg-3">
+                        <div class="card-header">Header</div>
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Primary card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the
+                                bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Popup Line Chart 1 -->
+<div class="modal fade chart-main" id="popupLineChart1" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-3">Line Chart 1</h3>
+                    <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                    </button>
+                </div>
+                {{ popup_div_line_chart1|safe }}
+                {{ popup_script_line_chart1|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup Line Chart 2 -->
+<div class="modal fade chart-main" id="popupLineChart2" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-3">Line Chart 2</h3>
+                    <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                    </button>
+                </div>
+                {{ popup_div_line_chart2|safe }}
+                {{ popup_script_line_chart2|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

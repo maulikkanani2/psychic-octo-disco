@@ -1,0 +1,113 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+    <br>
+  <div >
+    <div class="row" >
+        <div class="col-md-6"  style="max-width: 800px;">
+            <div class="card card-body">
+                                <h5>Main Table</h5>
+
+                <div>
+                    <select class="form-select" aria-label="Large select example">
+                      <option selected>Accounting Year</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+
+                    <select class="form-select" aria-label="Large select example">
+                      <option selected>Field</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <!-- Add more dropdowns for Main Table as needed -->
+
+                    <select class="form-select" aria-label="Large select example">
+                      <option selected>Route</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <!-- Add more dropdowns for Main Table as needed -->
+
+                    <select class="form-select" aria-label="Large select example">
+                      <option selected>AL Type</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <!-- Add more dropdowns for Main Table as needed -->
+                    <select class="form-select" aria-label="Large select example">
+                      <option selected>Well Class</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <!-- Add more dropdowns for Main Table as needed -->
+                    <select class="form-select" aria-label="Large select example">
+                      <option selected>Operator</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    <!-- Add more dropdowns for Main Table as needed -->
+                </div>
+            </div>
+            <div class="card card-body" style="max-height: 600px; overflow-y: scroll;">
+                <table class="table" style="width: 70%;">
+                    <tr>
+                        <!--th>Account Name</th -->
+                        {% for key in transposed_data.0 %}
+                            {% if key|date:"Ymd" == key %}
+                                <!-- If the key is a date, format it as desired -->
+                                <th>{{ key|date:"F Y" }}</th>
+                            {% else %}
+                                <!-- If the key is not a date, apply a different format or leave it as is -->
+                                <th>{{ key }}</th>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% for row in transposed_data %}
+                        <tr>
+                            {% for value in row.values %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+
+        <div class="col-md-2">
+            <div class="card card-body">
+                <h5>Table 1</h5>
+            </div>
+            <div class="card card-body" style="max-height: 300px; overflow-y: scroll;">
+                <!-- Content for Table 1 -->
+                <table class="table">
+                    <!-- Table 1 content here -->
+                </table>
+            </div>
+
+            <div class="card card-body">
+                <h5>Table 2</h5>
+            </div>
+            <div class="card card-body" style="max-height: 300px; overflow-y: scroll;">
+                <!-- Content for Table 2 -->
+                <table class="table">
+                    <!-- Table 2 content here -->
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-body">
+            <h5>Bokeh Chart</h5>
+            <!-- Include Bokeh plot script and div -->
+            {{ bokeh_script|safe }}
+            <div id="bokeh-plot"></div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

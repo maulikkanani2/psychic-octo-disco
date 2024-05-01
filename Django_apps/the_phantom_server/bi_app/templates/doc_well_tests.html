@@ -1,0 +1,230 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container px-0 px-lg-3">
+    <div class="card perent-card bg-gray-800 m-0 m-lg-3">
+        <div class="card-body">
+
+            <div class="row ">
+                <!-- Tables -->
+                <div class="col-12 mb-3">
+                    <h2>Doc Well Tests Entry</h2>
+                </div>
+                <div class="col-12 mb-3 dark-text">
+                    {% if submitted %}
+                    <div id="successMessage">
+                        Successfully Saved! Redirecting in <span id="docwelltestscountdown">2</span> seconds...
+                    </div>
+
+                </div>
+                {% else %}
+                <div>
+
+                    <form action="" class="row gas_meter" method="POST">
+                        {% csrf_token %}
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                User ID:
+                            </label>
+                            {{ form.userid }}
+                        </div>
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4  ">
+                            {{ form.docdate.label_tag }}
+                            <div class="d-sm-flex" style="gap: 10px;">
+                                {{ form.docdate }}
+                            </div>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="userid">
+                                Well Site ID:
+                            </label>
+                            {{ form.wellsiteid }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="temperature">
+                                Entity ID:
+                            </label>
+                            {{ form.entityid }}
+                        </div>
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                Entity Type ID:
+                            </label>
+                            {{ form.entitytypeid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Hourson:
+                            </label>
+                            {{ form.hourson }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Run Time Perc:
+                            </label>
+                            {{ form.runtimeperc }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Choke Size:
+                            </label>
+                            {{ form.chokesize }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Not Foral Location:
+                            </label>
+                            {{ form.notforallocation }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Test Method:
+                            </label>
+                            {{ form.testmethod }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Oil:
+                            </label>
+                            {{ form.oil }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Gas:
+                            </label>
+                            {{ form.gas }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Water:
+                            </label>
+                            {{ form.water }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Stamp:
+                            </label>
+                            {{ form.stamp }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Notes:
+                            </label>
+                            {{ form.notes }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Input By ID:
+                            </label>
+                            {{ form.inputbyid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Doc Source Code:
+                            </label>
+                            {{ form.docsourcecode }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Noru:
+                            </label>
+                            {{ form.noru }}
+                        </div>
+
+                        {% if errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please correct the following errors:
+                            {{ errors }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mb-3">
+                            <div class="row justify-content-center">
+
+                                <div class="">
+
+                                    <input type="submit" value="Submit" class="btn btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div class="col-12">
+                        <div class="mb-1">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active" onclick="">
+                                    <input type="radio" name="options" id="option1" checked autocomplete="off"> Export
+                                    PDF
+                                </label>
+                                <label class="btn btn-secondary" onclick="docWellTestsCSV()">
+                                    <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+                                </label>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="min-140 table-secondary" scope="col">User ID</th>
+                                        <th class="min-120 table-secondary" scope="col">Docdate</th>
+                                        <th class="min-120 table-secondary" scope="col">Well Site ID</th>
+                                        <th class="min-140 table-secondary" scope="col">Entity ID</th>
+                                        <th class="min-140 table-secondary" scope="col">Entity Type ID</th>
+                                        <th class="min-120 table-secondary" scope="col">Hourson</th>
+                                        <th class="min-140 table-secondary" scope="col">Run Time Perc</th>
+                                        <th class="min-120 table-secondary" scope="col">Choke Size</th>
+                                        <th class="min-140 table-secondary" scope="col">Not Foral Location</th>
+                                        <th class="min-160 table-secondary" scope="col">Test Method</th>
+                                        <th class="min-140 table-secondary" scope="col">Oil</th>
+                                        <th class="min-120 table-secondary" scope="col">Gas</th>
+                                        <th class="min-120 table-secondary" scope="col">Water</th>
+                                        <th class="min-120 table-secondary" scope="col">Stamp</th>
+                                        <th class="min-160 table-secondary" scope="col">Notes</th>
+                                        <th class="min-120 table-secondary" scope="col">Input By ID</th>
+                                        <th class="min-160 table-secondary" scope="col">Doc Source Code</th>
+                                        <th class="min-120 table-secondary" scope="col">Noru</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if latest_records %}
+                                    {% for record in latest_records %}
+                                    <tr>
+                                        <td>{{ record.userid }}</td>
+                                        <td>{{ record.docdate }}</td>
+                                        <td>{{ record.wellsiteid|floatformat:2|intcomma }}</td>
+                                        <td>{{ record.entityid }}</td>
+                                        <td>{{ record.entitytypeid|floatformat:2|intcomma }}</td>
+                                        <td>{{ record.hourson|floatformat:2|intcomma }}</td>
+                                        <td>{{ record.runtimeperc|floatformat:2|intcomma }}</td>
+                                        <td>{{ record.chokesize|floatformat:2|intcomma }}</td>
+                                        <td>{{ record.notforallocation|intcomma }}</td>
+                                        <td>{{ record.testmethod|intcomma }}</td>
+                                        <td>{{ record.oil|intcomma }}</td>
+                                        <td>{{ record.gas }}</td>
+                                        <td>{{ record.water }}</td>
+                                        <td>{{ record.stamp|intcomma }}</td>
+                                        <td>{{ record.notes }}</td>
+                                        <td>{{ record.inputbyid }}</td>
+                                        <td>{{ record.docsourcecode }}</td>
+                                        <td>{{ record.noru }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No Record Found</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

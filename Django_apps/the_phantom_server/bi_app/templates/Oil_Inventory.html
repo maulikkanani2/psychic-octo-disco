@@ -1,0 +1,250 @@
+    <!-- templates/your_app/your_template.html -->
+
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container">
+  <div class="card bg-gray-800 mx-0 mb-0 p-3">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <h2>Oil Inventory</h2>
+      </div>
+      <div class="col-12 mb-3">
+        <form method="GET" action="{% url 'oil_inventory_view' %}">
+          {{ form.as_p }}
+          <input type="submit" value="Submit" class="btn btn-primary" />
+        </form>
+      </div>
+      <div class="mx-3 mb-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active" onclick="exportPDF()">
+            <input type="radio" name="options" id="option1" checked autocomplete="off"> Export PDF
+          </label>
+          <label class="btn btn-secondary" onclick="exportCSV()">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+          </label>
+        </div>
+      </div>
+      <div class="oil-card col-12">
+        <div class="table-responsive">
+          <table class="table bg-white">
+            <thead class="table-head">
+              <tr>
+                <div>
+                  <th class="min-120 table-secondary" scope="col">Location</th>
+                  <th class="min-120 table-secondary" scope="col">Tank Name</th>
+                  <th class="min-120 table-secondary" scope="col">Current Oil</th>
+                  <th class="table-secondary" scope="col">Date</th>
+                </div>
+              </tr>
+            </thead>
+            <tbody>
+              {% if oil %}
+              {% for item in oil %}
+              <tr class="selectable-row">
+                <td>{{ item.tankid__cal_id__name }}</td>
+                <td>{{ item.tankid__tankname }}</td>
+                <td>{{ item.final_gauge|floatformat:2|intcomma }}</td>
+                <td>{{ item.docdatedate }}</td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="4" class="text-center">No Record Found</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Charts -->
+      <div class="col-12 mb-3 col-md-6 col-lg-4">
+        <!-- Bokeh Chart 1 -->
+        <div class="card mt-5 m-0 bg-gray-800" >
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3">Chart 1</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+              </svg>
+            </button>
+          </div>
+          {% if div_line_chart1 and script_line_chart1 %}
+          {{ div_line_chart1|safe }}
+          {{ script_line_chart1|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+          <!-- Embed Bokeh Chart 1 Here -->
+          <script>
+            // Bokeh Chart 1 JavaScript Code
+          </script>
+        </div>
+      </div>
+      <div class="col-12 mb-3 col-md-6 col-lg-4">
+        <!-- Bokeh Chart 2 -->
+        <div class="card mt-5 m-0 bg-gray-800" >
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3">Chart 2</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+              </svg>
+            </button>
+          </div>
+          {% if div_line_chart2 and script_line_chart2 %}
+          {{ div_line_chart2|safe }}
+          {{ script_line_chart2|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+          <!-- Embed Bokeh Chart 1 Here -->
+          <script>
+            // Bokeh Chart 1 JavaScript Code
+          </script>
+        </div>
+      </div>
+      <div class="col-12 mb-3 col-md-6 col-lg-4">
+        <!-- Bokeh Chart 3 -->
+        <div class="card mt-5 m-0 bg-gray-800" >
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="p-3">Chart 3</h3>
+            <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+              </svg>
+            </button>
+          </div>
+          {% if div_line_chart3 and script_line_chart3 %}
+          {{ div_line_chart3|safe }}
+          {{ script_line_chart3|safe }}
+          {% else %}
+          <div class="p-3 chart-text">Chart isn't Available</div>
+          {% endif %}
+          <!-- Embed Bokeh Chart 1 Here -->
+          <script>
+            // Bokeh Chart 1 JavaScript Code
+          </script>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mb-3 col-md-6 col-lg-4">
+        <!-- Card 1 -->
+        <div class="card border-primary mb-3">
+          <div class="card-header">Average Inventory</div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">Bbls.</h5>
+            <p class="card-text">{{ average_inventory|floatformat:2|intcomma }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-3 col-md-6 col-lg-4">
+        <!-- Card 2 -->
+        <div class="card border-primary mb-3">
+          <div class="card-header">Average Sales</div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">Bbls.</h5>
+            <p class="card-text">{{ average_sales|floatformat:2|intcomma }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-3 col-md-6 col-lg-4">
+        <!-- Card 3 -->
+        <div class="card border-primary mb-3">
+          <div class="card-header">Average Production</div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">Bbls.</h5>
+            <p class="card-text">{{ average_production|floatformat:2|intcomma }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Popup Line Chart 1 -->
+<div class="modal fade chart-main" id="popupLineChart1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="p-3 mb-0">Chart 1</h3>
+          <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </button>
+        </div>
+        {% if popup_div_line_chart1 and popup_div_line_chart1 %}
+        {{ popup_div_line_chart1|safe }}
+        {{ popup_script_line_chart1|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Line Chart 2 -->
+<div class="modal fade chart-main" id="popupLineChart2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="p-3 mb-0">Chart 2</h3>
+          <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </button>
+        </div>
+        {% if popup_div_line_chart2 and popup_div_line_chart2 %}
+        {{ popup_div_line_chart2|safe }}
+        {{ popup_script_line_chart2|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Line Chart 3 -->
+<div class="modal fade chart-main" id="popupLineChart3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="p-3">Chart 3</h3>
+          <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </button>
+        </div>
+        {% if popup_div_line_chart3 and popup_div_line_chart3 %}
+          {{ popup_div_line_chart3|safe }}
+          {{ popup_script_line_chart3|safe }}
+        {% else %}
+        <div class="p-3 chart-text">Chart isn't Available</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

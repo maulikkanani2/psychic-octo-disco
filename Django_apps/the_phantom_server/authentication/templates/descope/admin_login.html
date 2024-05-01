@@ -1,0 +1,8 @@
+{% extends "main.html" %}
+{% load static %}
+{% load descope %} 
+
+{% block content %}
+  <h1 class="title">Admin Login</h1>
+  {% descope_flow "sign-up-or-in" "/admin" %}
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block content %}
+
+<section>
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-8 col-lg-6 p-0 col-xl-5">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-sm-5">
+
+                        <h3 class="mb-5 text-center">Sign in</h3>
+                        <form action="" method="post" id="image_form">
+                            {% csrf_token %}
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="typeEmailX-2">Email</label>
+                                <input type="email" id="typeEmailX-2" name="email"
+                                    class="form-control form-control-lg" autocomplete="off" />
+                            </div>
+
+
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="typePasswordX-2">Password</label>
+                                <input type="password" id="typePasswordX-2" name="password"
+                                    class="form-control form-control-lg" autocomplete="off" />
+                            </div>
+
+                            <div class="form-check d-flex justify-content-start mb-4">
+                                <input class="form-check-input" type="checkbox" id="form1Example3" name="remember_me" />
+                                <label class="form-check-label" for="form1Example3"> Remember me </label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                            <input type="hidden" id="image_src" name="image_src" />
+                            <input type="hidden" id="email_src" name="email_src" />
+                            <input type="hidden" id="is_face_auth" name="is_face_auth" />
+                        </form>
+
+                        <div id="faceVideo" style="display: none;">
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="face_email">Email</label>
+                                <input type="email" id="face_email" name="face_email"
+                                    class="form-control form-control-lg" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="videoElement">Face</label>
+                                <video id="videoElement" autoplay style="width:100%"></video>
+                            </div>
+
+                            <canvas id="canvasElement" style="display: none;"></canvas>
+                        </div>
+
+                        <hr class="my-4">
+                        <button class="btn btn-lg btn-block btn-primary mb-2" id="startButton" style="display: block;"
+                            style="background-color: #3b5998;" type="submit"><i class="fab fa-facebook-f me-2"></i>Sign
+                            in with Face</button>
+                        <button class="btn btn-lg btn-block btn-primary mb-2" id="captureButton" style="display: none;"
+                            style="background-color: #3b5998;" type="submit"><i
+                                class="fab fa-facebook-f me-2"></i>Capture Face</button>
+                        <button class="btn btn-lg btn-block btn-primary mb-2" id="cancelButton" style="display: none;"
+                            style="background-color: #303031;" type="submit"><i
+                                class="fab fa-facebook-f me-2"></i>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

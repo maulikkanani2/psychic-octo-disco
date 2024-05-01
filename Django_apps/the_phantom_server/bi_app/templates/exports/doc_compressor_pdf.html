@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block cssblock %}
+{% include "css_block.html" %}
+{% endblock cssblock %}
+
+{% block pdfcontent %}
+  <div class="container">
+    <div class="card bg-gray-800 mx-0 mb-0 p-3">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <h2 style="text-align: center;">Doc Compressor</h2>
+        </div>
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table bg-white" border="1">
+              <thead class="thead-light">
+                <tr>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">User ID</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Ambient Temperature</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Discharge Temperature</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Suction Temperature</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Water Temperature</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Oil Pressure</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Oil Temperature</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">RPM</th>
+                  <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Suction Pressure</th>
+                  <th class="table-secondary" style="padding: 3px;" scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if latest_records %}
+                  {% for record in latest_records %}
+                  <tr>
+                    <td style="padding: 3px;">{{ record.userid }}</td>
+                    <td>{{ record.ambienttemp|floatformat:2|intcomma }}</td>
+                    <td>{{ record.dischargetemperature|floatformat:2|intcomma }}</td>
+                    <td>{{ record.suctiontemperature|floatformat:2|intcomma }}</td>
+                    <td>{{ record.watertemp|floatformat:2|intcomma }}</td>
+                    <td>{{ record.oilpressure|floatformat:2|intcomma }}</td>
+                    <td>{{ record.oiltemp|floatformat:2|intcomma }}</td>
+                    <td>{{ record.rpm|floatformat:2|intcomma }}</td>
+                    <td>{{ record.suctionpressure|floatformat:2|intcomma }}</td>
+                    <td style="padding: 3px;">{{record.docdate|date:"M d, Y"}}</td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="10" class="text-center" style="text-align: center; padding: 3px;">No Record Found</td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock pdfcontent %}
+
+{% block script %}
+{% include "script_block.html" %}
+{% endblock script %}

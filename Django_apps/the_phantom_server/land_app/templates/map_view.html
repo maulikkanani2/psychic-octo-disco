@@ -1,0 +1,18 @@
+<!-- templates/your_app/your_template.html -->
+
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+
+  <body>
+    <!-- ... Your other HTML elements... -->
+
+    <!-- Include the Bokeh div -->
+    {{ div|safe }}
+
+    <!-- Include the Bokeh script -->
+    {{ script|safe }}
+  </body>
+
+{% endblock %}

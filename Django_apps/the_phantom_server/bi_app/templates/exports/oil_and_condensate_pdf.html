@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block cssblock %}
+{% include "css_block.html" %}
+{% endblock cssblock %}
+
+{% block pdfcontent %}
+<div class="container">
+    <div class="card bg-gray-800 mx-0 mb-0 p-3">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h2 style="text-align: center;">OIL AND CONDENSATE SALES</h2><br>
+            </div>
+            <table class="table bg-white" border="1">
+                <thead>
+                    <tr>
+                        <th style="padding-top: 10px; padding-left: 5px;">Sr.No</th>
+                        <th style="padding-top: 10px; padding-left: 5px;">Account</th>
+                        {% for column_name in column_names %}
+                        <th class="table-secondary table-wrap" style="padding-top: 10px; padding-left: 5px;">{{ column_name }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">01</td>
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">Volume (BBLS)</td><!-- This cell is for the 'Account' column in header -->
+                        {% for row in oil_data %}
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ row.Qty|floatformat:2|intcomma }}</td><!-- Use 'value' for cell contents -->
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">02</td>
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">Revenue</td><!-- This cell is for the 'Account' column in header -->
+                        {% for row in oil_data %}
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ row.Amount|floatformat:2|intcomma }}</td><!-- Use 'value' for cell contents -->
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">03</td>
+                        <td style="padding-top: 10px; float: right; padding-left: 5px;">Ave Price Per BBl</td><!-- This cell is for the 'Account' column in header -->
+                        {% for row in oil_data %}
+                        <td class="p-3" style="padding-top: 10px; float: right; padding-left: 5px;">{{ row.unitcost|floatformat:2|intcomma }}</td><!-- Use 'value' for cell contents -->
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock pdfcontent %}
+
+{% block script %}
+{% include "script_block.html" %}
+{% endblock script %}

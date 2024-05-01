@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block cssblock %}
+{% include "css_block.html" %}
+{% endblock cssblock %}
+
+{% block pdfcontent %}
+<div class="container">
+  <div class="card bg-gray-800 mx-0 mb-0 p-3">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <h2 style="text-align: center;">Doc Run Tickets</h2>
+      </div>
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table bg-white" border="1">
+            <thead>
+              <tr>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Docdate</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">End Feet</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">End Inch</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">End 1/4</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Gravity</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">BSW</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Purchaser ID</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Ticket Number</th>
+                <th class="min-120 table-secondary" style="padding: 3px;" scope="col">Volume</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if latest_records %}
+              {% for record in latest_records %}
+              <tr>
+                <td style="padding: 3px;" >{{ record.docdate|date:"M d, Y" }}</td>
+                <td style="padding-left: 3px;" >{{ record.end_ft|floatformat:2|intcomma }}</td>
+                <td style="padding-left: 3px;">{{ record.end_inch|floatformat:2|intcomma }}</td>
+                <td style="padding-left: 3px;">{{ record.end_qtr }}</td>
+                <td style="padding-left: 3px;">{{ record.gravity|floatformat:2|intcomma }}</td>
+                <td style="padding-left: 3px;">{{ record.bsw|floatformat:2|intcomma }}</td>
+                <td style="padding-left: 3px;">{{ record.purchaserid|floatformat:2|intcomma|default:'None' }}</td>
+                <td style="padding-left: 3px;">{{ record.ticketnum|floatformat:2|intcomma }}</td>
+                <td style="padding-left: 3px;">{{ record.volume|floatformat:2|intcomma }}</td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="9" class="text-center">No Record Found</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock pdfcontent %}
+
+{% block script %}
+{% include "script_block.html" %}
+{% endblock script %}

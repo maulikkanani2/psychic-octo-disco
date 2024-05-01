@@ -1,0 +1,759 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block energy %}
+
+<div class="energy-main">
+    <div class="energy-head">
+        <div class="container">
+            <h1>Energy</h1>
+            <p>By <a href="#">Hannah Ritchie, Pablo Rosado and Max Roser</a></p>
+        </div>
+    </div>
+    <div class="energy-tabs">
+        <div class="container">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="Introduction-tab" data-toggle="tab" href="#introduction" role="tab"
+                        aria-controls="introduction" aria-selected="true">Introduction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Explorer-tab" data-toggle="tab" href="#explorer" role="tab"
+                        aria-controls="explorer" aria-selected="false">Data Explorer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Research-tab" data-toggle="tab" href="#research" role="tab"
+                        aria-controls="research" aria-selected="false">Research & Writing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Charts-tab" data-toggle="tab" href="#charts" role="tab"
+                        aria-controls="charts" aria-selected="false">Charts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Cite-tab" data-toggle="tab" href="#cite" role="tab" aria-controls="cite"
+                        aria-selected="false">Cite This Work</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Reuse-tab" data-toggle="tab" href="#reuse" role="tab" aria-controls="reuse"
+                        aria-selected="false">Reuse This Work</a>
+                </li>
+                <!-- Additional tabs if needed -->
+            </ul>
+        </div>
+    </div>
+    <div class="intro-main" id="introduction">
+        <div class="container">
+            <div class="row">
+                <div class="col-7 p-0">
+                    <div class="left-content">
+                        <p>The world <a href="#">lacks</a> a safe, low-carbon, and cheap large-scale energy
+                            infrastructure.</p>
+                        <p>Until we scale up such an energy infrastructure, the world will continue to face two energy
+                            problems: hundreds of millions of people lack access to sufficient energy, and the dominance
+                            of fossil fuels in our energy system drives <a href="#">climate change</a> and other health
+                            impacts such as <a href="#">air pollution</a>.</p>
+                        <p>To ensure everyone has access to clean and safe energy, we need to understand energy
+                            consumption and its impacts around the world today and how this has changed over time.</p>
+                        <p>On this page, you can find all our data, visualizations, and writing relating to energy.</p>
+                    </div>
+                </div>
+                <div class="col-5 p-0">
+                    <div class="right-content">
+                        <button>Download all data on energy</button>
+                        <div class="relate-topic">
+                            <h2>Related topics</h2>
+                            <div class="topic-data">
+                                <a href="#">CO₂ and Greenhouse Gas Emissions <svg xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 448 512">
+                                        <path
+                                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                                    </svg></a>
+                                <a href="#">Air Pollution <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <path
+                                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                                    </svg></a>
+                                <a href="#">Oil Spills <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <path
+                                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                                    </svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="data-energy" id="explorer">
+        <div class="container">
+            <h3 class="data-head link-data">Explore Data on Energy <i class="fa-solid fa-link"></i></h3>
+            <div class="explorer-energy">
+                <div class="data-explorer">
+                    <h3 class="mb-0">Energy Data Explorer</h3>
+                    <p class="mb-0">Explore data on energy production and sources.</p>
+                    <a href="#">Download this dataset</a>
+                </div>
+                <div class="total-datas">
+                    <div class="breakdown-data">
+                        <p>Total or Breakdown</p>
+                        <div class="d-flex align-items-center check-radio">
+                            <input type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                            <label class="mb-0" for="flexRadioDefault1">
+                                Total
+                            </label>
+                        </div>
+                        <div class="d-flex align-items-center check-radio">
+                            <input type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                            <label class="mb-0" for="flexRadioDefault2">
+                                Select a source
+                            </label>
+                        </div>
+                    </div>
+                    <div class="breakdown-data">
+                        <p>SELECT A SOURCE</p>
+                        <select disabled class="disabled-select">
+                            <option value="-">-</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div class="breakdown-data">
+                        <p>ENERGY OR ELECTRICITY</p>
+                        <div class="d-flex align-items-center check-radio">
+                            <input type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                            <label class="mb-0" for="flexRadioDefault1">
+                                Primary energy
+                            </label>
+                        </div>
+                        <div class="d-flex align-items-center check-radio">
+                            <input type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                            <label class="mb-0" for="flexRadioDefault2">
+                                Electricity only
+                            </label>
+                        </div>
+                    </div>
+                    <div class="breakdown-data">
+                        <p>METRIC</p>
+                        <select class="select-main">
+                            <option value="1">Annual consumption</option>
+                            <option value="2">Per capita consumption</option>
+                            <option value="3">Rel. change from previous year</option>
+                            <option value="4">Abs. change from previous year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="explore-country explorer-energy">
+                <div class="explore-left">
+                    <div class="left-data position-relative w-100">
+                        <input type="text" placeholder="Type to add a country or region...">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path
+                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                        </svg>
+                    </div>
+                    <div class="sort-data">
+                        <label class="mb-0">Sort by</label>
+                        <select>
+                            <option value="Relevance">Relevance</option>
+                            <option value="Per capita consumption">Per capita consumption</option>
+                        </select>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-down-a-z"
+                            class="svg-inline--fa fa-arrow-down-a-z " role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512">
+                            <path fill="currentColor"
+                                d="M183.6 469.6C177.5 476.2 169 480 160 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L128 365.7V64c0-17.7 14.3-32 32-32s32 14.3 32 32V365.7l32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 320c0-17.7 14.3-32 32-32H480c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9L429.3 416H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H352c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9L402.7 352H352c-17.7 0-32-14.3-32-32zM416 32c12.1 0 23.2 6.8 28.6 17.7l64 128 16 32c7.9 15.8 1.5 35-14.3 42.9s-35 1.5-42.9-14.3L460.2 224H371.8l-7.2 14.3c-7.9 15.8-27.1 22.2-42.9 14.3s-22.2-27.1-14.3-42.9l16-32 64-128C392.8 38.8 403.9 32 416 32zM395.8 176h40.4L416 135.6 395.8 176z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <form action="{% url 'energy' %}" method="get" id="energy_file">
+                            <input type="hidden" name="energy_data" id="energy_data">
+                        </form>
+                        <div class="checked-main" id="energy_dropdown">
+                            {% for file in files %}
+                            <div class="check-data">
+                                <input type="checkbox" id="{{file}}" name="{{file}}" class="file-checkbox">
+                                <label for="{{file}}" class="mb-0">{{file}}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="ClearSelectionButton">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark"
+                                class="svg-inline--fa fa-xmark " role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 384 512">
+                                <path fill="currentColor"
+                                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
+                                </path>
+                            </svg>
+                            Clear selection
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-main">
+                    <div>
+                        <div class="d-flex align-items-start justify-content-between subtitle-head">
+                            <div class="">
+                                <h2>Energy use per person, 2022</h2>
+                                <p>Measured in kilowatt-hours per person. Here, energy refers to primary energy using
+                                    the substitution method.</p>
+                            </div>
+                            <img src="{% static '../static/images/text.svg' %}" alt="text">
+                        </div>
+                        <div class="view-list">
+                            <div>
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link table" id="table-tab" data-toggle="tab" href="#table"
+                                            role="tab" aria-controls="table" aria-selected="true"><img
+                                                src="{% static '../static/images/table.svg' %}" alt="text"><span
+                                                class="leading-0">Table</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="map-tab" data-toggle="tab" href="#map" role="tab"
+                                            aria-controls="map" aria-selected="false"><img
+                                                src="{% static '../static/images/map.svg' %}" alt="map"><span
+                                                class="leading-0">Map</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="chart-tab" data-toggle="tab" href="#chart" role="tab"
+                                            aria-controls="chart" aria-selected="false"><img
+                                                src="{% static '../static/images/chart.svg' %}" alt="chart"> <span
+                                                class="leading-0">Chart</span></a>
+                                    </li>
+                                </ul>
+                                <!-- <button class="menu-toggle"><span class="label"><i class="fa-solid fa-gear"></i>
+                                   Settings</span></button> -->
+                            </div>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade " id="table" role="tabpanel"
+                                    aria-labelledby="table-tab">
+                                    <div class="oil-card">
+                                        <div class="table-responsive" style="max-height: 43vh;">
+    
+                                            <table class="table bg-white">
+                                                <thead class="table-head" >
+                                                    <tr>
+                                                        <th class="table-secondary">TPMS_ID</th>
+                                                        <th scope="col" class="min-120 table-secondary">P5_NUM</th>
+                                                        <th scope="col" class="min-120 table-secondary">T4PERMIT</th>
+                                                        <th scope="col" class="min-120 table-secondary">DIAMETER</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if shp_data %}
+                                                        {% for item in shp_data %}
+                                                        <tr>
+                                                            <td>{{ item.TPMS_ID }}</td>
+                                                            <td>{{ item.P5_NUM }}</td>
+                                                            <td>{{ item.T4PERMIT }}</td>
+                                                            <td>{{ item.DIAMETER }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    {% else %} 
+                                                        <tr>
+                                                            <td colspan="4" class="text-center">No Record Found</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                    {{ div|safe }}
+                                    {{ script|safe }}
+                                </div>
+                                <div class="tab-pane fade" id="chart" role="tabpanel" aria-labelledby="chart-tab">
+                                    {{ div1|safe }}
+                                    {{ script1|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="energy-info">
+                        <div>
+                            <p>
+                                <span>Data source:</span>
+                                U.S. Energy Information Administration (2023); Energy Institute - Statistical Review of
+                                World Energy (2023); Population based on
+                                various sources (2023) –
+                                <a href="#">Learn more about this data</a>
+                            </p>
+                            <div><a href="#">OurWorldInData.org/energy</a> | <a class="cc-by" href="#">CC BY</a></div>
+                        </div>
+                        <div class="icon-btn-main">
+                            <button><i class="fa-solid fa-download"></i></button>
+                            <button><i class="fa-solid fa-share-nodes"></i></button>
+                            <button><i class="fa-solid fa-expand"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="research-main">
+        <div class="container">
+            <h2 class="link-data">Research & Writing <i class="fa-solid fa-link"></i></h2>
+            <div class="row m-0">
+                <div class="col-6 pl-0">
+                    <div class="energy-problem">
+                        <img src="{% static '../static/images/worlds-energy.png' %}" alt="world-energy" class="w-100">
+                        <div class="world-data">
+                            <h3>The world’s energy problem</h3>
+                            <p>The world faces two energy problems: most of our energy still produces greenhouse gas
+                                emissions, and hundreds of millions lack access to energy.</p>
+                            <span>Max Roser</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="energy-problem source-data">
+                                <img src="{% static '../static/images/featured-image.png' %}" alt="featured-image"
+                                    class="w-100">
+                                <div class="world-data">
+                                    <h3>What are the safest and cleanest sources of energy?</h3>
+                                    <p>Fossil fuels are the dirtiest and most dangerous energy sources, while nuclear
+                                        and modern renewable energy sources are vastly safer and cleaner.</p>
+                                    <span>Hannah Ritchie</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="energy-problem source-data">
+                                <img src="{% static '../static/images/featured-image2.png' %}" alt="featured-image2"
+                                    class="w-100">
+                                <div class="world-data">
+                                    <h3>Why did renewables become so cheap so fast?</h3>
+                                    <p>In most places power from new renewables is now cheaper than new fossil fuels.
+                                    </p>
+                                    <span>Max Roser</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="artical-main">
+        <div class="container">
+            <h2>Overview Articles on Energy</h2>
+            <div class="artical-grid">
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-access.png' %}" alt="energy-access" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="artical-main consumption-main">
+        <div class="container">
+            <h2>Energy Access and Consumption</h2>
+            <div class="artical-grid">
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-poverty.png' %}" alt="energy-poverty" class="w-100">
+                    <div class="world-data">
+                        <h3>Energy poverty and indoor air pollution: a problem as old as humanity that we can end within
+                            our lifetime</h3>
+                        <span>Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-poverty.png' %}" alt="energy-poverty" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-poverty.png' %}" alt="energy-poverty" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-poverty.png' %}" alt="energy-poverty" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/energy-poverty.png' %}" alt="energy-poverty" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="artical-main consumption-main">
+        <div class="container">
+            <h2>Energy Sources and Transitions</h2>
+            <div class="artical-grid">
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/global-energy.png' %}" alt="global-energy" class="w-100">
+                    <div class="world-data">
+                        <h3>How have the world’s energy sources changed over the last two centuries?</h3>
+                        <span>Hannah Ritchie</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/global-energy.png' %}" alt="global-energy" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/global-energy.png' %}" alt="global-energy" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/global-energy.png' %}" alt="global-energy" class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="artical-main consumption-main">
+        <div class="container">
+            <h2>Energy Prices and Impacts</h2>
+            <div class="artical-grid">
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/cheap-renewables.png' %}" alt="cheap-renewables"
+                        class="w-100">
+                    <div class="world-data">
+                        <h3>Why did renewables become so cheap so fast?</h3>
+                        <span>Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/cheap-renewables.png' %}" alt="cheap-renewables"
+                        class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/cheap-renewables.png' %}" alt="cheap-renewables"
+                        class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <img src="{% static '../static/images/cheap-renewables.png' %}" alt="cheap-renewables"
+                        class="w-100">
+                    <div class="world-data">
+                        <h3>The world’s energy problem</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="artical-main consumption-main">
+        <div class="container">
+            <h2>Energy Prices and Impacts</h2>
+            <div class="artical-grid">
+                <div class="energy-problem">
+                    <div class="world-data">
+                        <h3>Definition: Access to Electricity </h3>
+                        <span>Hannah Ritchie</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <div class="world-data">
+                        <h3>Missing data on energy: our list of datasets that are needed but are not available</h3>
+                        <span>Hannah Ritchie, Pablo Rosado and Max Roser</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <div class="world-data">
+                        <h3>What’s the difference between direct and substituted primary energy?</h3>
+                        <span>Hannah Ritchie and Pablo Rosado</span>
+                    </div>
+                </div>
+                <div class="energy-problem">
+                    <div class="world-data">
+                        <h3>Primary, secondary, final, and useful energy: Why are there different ways of measuring
+                            energy?</h3>
+                        <span>Hannah Ritchie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="interactive-main">
+        <div class="container">
+            <h2 class="link-data">Interactive Charts on Energy <i class="fa-solid fa-link"></i></h2>
+            <div class="row">
+                <div class="col-5 interactive-charts pl-0">
+                    <div class="left-chart-list">
+                        <div class="chart-list">
+                            <img src="{% static '../static/images/chart1.svg' %}" alt="chart1" class="w-100">
+                            <a href="#">Electricity production from fossil fuels, nuclear and renewables</a>
+                        </div>
+                        <div class="chart-list">
+                            <img src="{% static '../static/images/chart2.svg' %}" alt="chart2" class="w-100">
+                            <a href="#">Carbon intensity of electricity generation</a>
+                        </div>
+                        <div class="chart-list">
+                            <img src="{% static '../static/images/chart1.svg' %}" alt="chart1" class="w-100">
+                            <a href="#">Electricity production from fossil fuels, nuclear and renewables</a>
+                        </div>
+                        <div class="chart-list">
+                            <img src="{% static '../static/images/chart2.svg' %}" alt="chart2" class="w-100">
+                            <a href="#">Carbon intensity of electricity generation</a>
+                        </div>
+                        <div class="chart-list">
+                            <img src="{% static '../static/images/chart1.svg' %}" alt="chart1" class="w-100">
+                            <a href="#">Electricity production from fossil fuels, nuclear and renewables</a>
+                        </div>
+                        <div class="chart-list">
+                            <img src="{% static '../static/images/chart2.svg' %}" alt="chart2" class="w-100">
+                            <a href="#">Carbon intensity of electricity generation</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-7">
+                    <div class="explore-country explorer-energy">
+                        <div class="chat-main">
+                            <div>
+                                <div class="d-flex align-items-start justify-content-between subtitle-head">
+                                    <div class="">
+                                        <h2 class="mt-0 mb-0">Energy use per person, 2022</h2>
+                                        <p>Measured in kilowatt-hours per person. Here, energy refers to primary energy
+                                            using the substitution method.</p>
+                                    </div>
+                                    <img src="{% static '../static/images/text.svg' %}" alt="text">
+                                </div>
+                                <div class="view-list">
+                                    <div>
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active table" id="table-tab" data-toggle="tab"
+                                                    href="#table" role="tab" aria-controls="table"
+                                                    aria-selected="true"><img
+                                                        src="{% static '../static/images/table.svg' %}" alt="text"><span
+                                                        class="leading-0">Table</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="map-tab" data-toggle="tab" href="#map"
+                                                    role="tab" aria-controls="map" aria-selected="false"><img
+                                                        src="{% static '../static/images/map.svg' %}" alt="map"><span
+                                                        class="leading-0">Map</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="chart-tab" data-toggle="tab" href="#chart"
+                                                    role="tab" aria-controls="chart" aria-selected="false"><img
+                                                        src="{% static '../static/images/chart.svg' %}" alt="chart">
+                                                    <span class="leading-0">Chart</span></a>
+                                            </li>
+                                        </ul>
+                                        <!-- <button class="menu-toggle"><span class="label"><i class="fa-solid fa-gear"></i>
+                                           Settings</span></button> -->
+                                    </div>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="table" role="tabpanel"
+                                            aria-labelledby="table-tab">Tab content for Home</div>
+                                        <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                            Tab content for Map</div>
+                                        <div class="tab-pane fade" id="chart" role="tabpanel"
+                                            aria-labelledby="chart-tab">Tab content for Chart</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="energy-info">
+                                <div>
+                                    <p class="mb-0">
+                                        <span>Data source:</span>
+                                        U.S. Energy Information Administration (2023); Energy Institute - Statistical
+                                        Review of World Energy (2023); Population based on
+                                        various sources (2023) –
+                                        <a href="#">Learn more about this data</a>
+                                    </p>
+                                    <div><a href="#">OurWorldInData.org/energy</a> | <a class="cc-by" href="#">CC BY</a>
+                                    </div>
+                                </div>
+                                <div class="icon-btn-main">
+                                    <button><i class="fa-solid fa-download"></i></button>
+                                    <button><i class="fa-solid fa-share-nodes"></i></button>
+                                    <button><i class="fa-solid fa-expand"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-slide"><button><i class="fa-solid fa-arrow-left-long"></i></button> Chart 1 of 240
+                        <button><i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="article-citation">
+        <div class="container">
+            <div class="article-city">
+                <div class="article-resource">
+                    <div class="city-data">
+                        <h3>Cite this work</h3>
+                        <p class="des-data">Our articles and data visualizations rely on work from many different people
+                            and organizations. When citing this topic page, please also cite the underlying data
+                            sources. This topic page can be cited as:</p>
+                    </div>
+                    <div class="code-snnipet">
+                        <code>
+                            Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “Energy” Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/energy' [Online Resource]
+                        </code>
+                        <button>
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                    <p class="des-data">BibTeX citation</p>
+                    <div class="code-snnipet">
+                        <code>
+                            @article{owid-energy,
+                                author = {Hannah Ritchie and Pablo Rosado and Max Roser},
+                                title = {Energy},
+                                journal = {Our World in Data},
+                                year = {2023},
+                                note = {https://ourworldindata.org/energy}
+                            }   
+                        </code>
+                        <button>
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="world-data">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img src="{% static '../static/images/owid-logo.svg' %}" alt="text">
+                    </div>
+                    <h3>Reuse this work freely</h3>
+                    <p>All visualizations, data, and code produced by Our World in Data are completely open access under
+                        the <a href="#">Creative Commons BY license</a>. You have the permission to use, distribute, and
+                        reproduce these in any medium, provided the source and authors are credited.
+                    </p>
+                    <p>The data produced by third parties and made available by Our World in Data is subject to the
+                        license terms from the original third-party authors. We will always indicate the original source
+                        of the data in our documentation, so you should always check the license of any such third-party
+                        data before use and redistribution.
+                    </p>
+                    <p>All of <a href="#">our charts can be embedded</a>in any site.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="donate-section">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>Our World in Data is free and accessible for everyone.</h2>
+                    <h2>Help us do this work by making a donation.</h2>
+                </div>
+                <button>Donate now <i class="fa-solid fa-angle-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.file-checkbox').click(function() {
+            var selectedFiles = [];
+            $('.file-checkbox:checked').each(function() {
+                selectedFiles.push($(this).attr('id'));
+            });
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'energy' %}",
+                data: {
+                    'filter_by': selectedFiles
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock energy %}

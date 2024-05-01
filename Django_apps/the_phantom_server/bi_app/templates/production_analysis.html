@@ -1,0 +1,250 @@
+<!-- templates/your_app/bokeh_charts.html -->
+
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card perent-card card-body bg-gray-800 mx-0 mb-0 mx-lg-4 mb-lg-4">
+
+  <h2 class="card-title">Production Analysis</h2>
+  <div class="card m-0 mt-3 m-lg-3">
+    <div class="card-body">
+      <div class=" row">
+        <div class=" col-12 mb-3 col-sm-6 col-md-4">
+
+          <select class="form-select custom-select " aria-label="Large select example">
+            <option selected>Accounting Year</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <div class=" col-12 mb-3 col-sm-6 col-md-4">
+
+          <select class="form-select custom-select " aria-label="Large select example">
+            <option selected>Field</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <!-- Add more dropdowns for Main Table as needed -->
+        <div class=" col-12 mb-3 col-sm-6 col-md-4">
+
+          <select class="form-select custom-select " aria-label="Large select example">
+            <option selected>Route</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+
+        <!-- Add more dropdowns for Main Table as needed -->
+        <div class=" col-12 mb-3 mb-md-0 col-sm-6 col-md-4">
+
+          <select class="form-select  custom-select " aria-label="Large select example">
+            <option selected>AL Type</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+
+        <!-- Add more dropdowns for Main Table as needed -->
+        <div class=" col-12 mb-3 mb-md-0 col-sm-6 col-md-4">
+
+          <select class="form-select custom-select " aria-label="Large select example">
+            <option selected>Well Class</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+
+        <!-- Add more dropdowns for Main Table as needed -->
+        <div class=" col-12 mb-3 mb-md-0 col-sm-6 col-md-4">
+
+          <select class="form-select custom-select " aria-label="Large select example">
+            <option selected>Operator</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+
+        <!-- Add more dropdowns for Main Table as needed -->
+      </div>
+    </div>
+  </div>
+  <div class="card m-0 mt-3 m-lg-3">
+    <div class="card-body">
+      <div class="row  mb-5">
+        <h4 class="card-title col-12 mb-3">Select Location:</h4>
+        <div class=" col-12 row">
+          <div class="col-6 col-sm-3">
+
+            <label class="pl-2 input-label">
+              <input class="form-check-input" type="checkbox" id="checkboxLine1" name="checkboxLine1" value="Line 1"
+                checked>
+              Line 1
+            </label>
+          </div>
+          <div class="col-6 col-sm-3">
+
+            <label class="pl-2 input-label">
+              <input class="form-check-input" type="checkbox" id="checkboxLine2" name="checkboxLine2" value="Line 2"
+                checked>
+              Line 2
+            </label>
+          </div>
+          <div class="col-6 col-sm-3">
+
+            <label class="pl-2 input-label">
+              <input class="form-check-input" type="checkbox" id="checkboxLine2" name="checkboxLine2" value="Line 2"
+                checked>
+              Line 3
+            </label>
+          </div>
+
+          <div class="col-6 col-sm-3">
+
+            <label class="pl-2 input-label">
+              <input class="form-check-input" type="checkbox" id="checkboxLine2" name="checkboxLine2" value="Line 2"
+                checked>
+              Line 4
+            </label>
+          </div>
+
+          <!-- Add more checkboxes as needed -->
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6 mb-5 col-lg-4">
+          <div class="card bg-gray-800 p-2 m-0 m-lg-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="text-center p-2">Line Chart 1</h3>
+              <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+                </svg>
+              </button>
+            </div>
+            {{ div_line_chart1|safe }}
+            {{ script_line_chart1|safe }}
+          </div>
+
+        </div>
+        <div class="col-12 col-md-6 mb-5 col-lg-4">
+          <div class="card bg-gray-800 p-2 m-0 m-lg-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="text-center p-2">Line Chart 2</h3>
+              <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+                </svg>
+              </button>
+            </div>
+            {{ div_line_chart2|safe }}
+            {{ script_line_chart2|safe }}
+          </div>
+        </div>
+        <div class="col-12 col-md-6  mb-5 col-lg-4">
+          <div class="card bg-gray-800 p-2 m-0 m-lg-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="text-center p-2">Line Chart 3</h3>
+              <button class="bg-transparent border-0 outline-none btn-size" data-toggle="modal" data-target="#popupLineChart3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707" />
+                </svg>
+              </button>
+            </div>
+            {{ div_line_chart3|safe }}
+            {{ script_line_chart3|safe }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Line Chart 1 -->
+<div class="modal fade chart-main" id="popupLineChart1" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="p-3 mb-0">Line Chart 1</h3>
+          <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+              viewBox="0 0 16 16">
+              <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+            </svg>
+          </button>
+        </div>
+        <!-- <h3 class="text-center p-2">Line Chart 1</h3> -->
+        {{ popup_div_line_chart1|safe }}
+        {{ popup_script_line_chart1|safe }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Line Chart 2 -->
+<div class="modal fade chart-main" id="popupLineChart2" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="p-3 mb-0">Line Chart 2</h3>
+          <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+              viewBox="0 0 16 16">
+              <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+            </svg>
+          </button>
+        </div>
+        <!-- <h3 class="text-center p-2">Line Chart 2</h3> -->
+        {{ popup_div_line_chart2|safe }}
+        {{ popup_script_line_chart2|safe }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Line Chart 3 -->
+<div class="modal fade chart-main" id="popupLineChart3" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="p-3 mb-0">Line Chart 3</h3>
+          <button class="bg-transparent border-0 outline-none btn-size" data-dismiss="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x"
+              viewBox="0 0 16 16">
+              <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+            </svg>
+          </button>
+        </div>
+        <!-- <h3 class="text-center p-2">Line Chart 3</h3> -->
+        {{ popup_div_line_chart3|safe }}
+        {{ popup_script_line_chart3|safe }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

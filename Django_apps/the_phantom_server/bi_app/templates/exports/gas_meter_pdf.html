@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block cssblock %}
+{% include "css_block.html" %}
+{% endblock cssblock %}
+
+{% block pdfcontent %}
+<div class="container">
+    <div class="card bg-gray-800 mx-0 mb-0 p-3">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h2 style="text-align: center;">Gas Meter Data</h2><br>
+            </div>
+            <table class="table bg-white" border="1">
+                <thead>
+                    <tr>
+                        <th class="table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">Docdate</th>
+                        <th class="min-120 table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">Gas meter Readings</th>
+                        <th class="min-120 table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">User ID</th>
+                        <th class="min-140 table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">Temperature</th>
+                        <th class="min-140 table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">Volume</th>
+                        <th class="min-140 table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">Line pressure</th>
+                        <th class="min-140 table-secondary" scope="col" style="padding-top: 10px; float: right; padding-left: 5px;">Input by Id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if latest_records %}
+                        {% for record in latest_records %}
+                        <tr>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{record.docdate}}</td>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ record.docidgasmeterreadings }}</td>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ record.userid }}</td>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ record.temperature }}</td>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ record.volume }}</td>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ record.linepressure }}</td>
+                            <td style="padding-top: 10px; float: right; padding-left: 5px;">{{ record.inputbyid }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No Record Found</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock pdfcontent %}
+
+{% block script %}
+{% include "script_block.html" %}
+{% endblock script %}

@@ -1,0 +1,27 @@
+{% load static %}
+{% load descope %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}KJ Dashboard{% endblock %}</title>
+    {% block cssblock %}
+    {% endblock cssblock %}
+</head>
+<body>
+    {% block header %}
+    {% endblock header %}
+    
+    {% block bodycontent %} 
+    {% block pdfcontent %}
+    {% endblock pdfcontent %}
+
+    {% endblock bodycontent %}
+
+
+    {% block script %}
+    {% endblock script %}
+    
+</body>
+</html>

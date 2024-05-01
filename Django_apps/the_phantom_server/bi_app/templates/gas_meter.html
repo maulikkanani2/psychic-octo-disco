@@ -1,0 +1,144 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container px-0 px-lg-3">
+    <div class="card perent-card bg-gray-800 m-0 m-lg-3">
+        <div class="card-body">
+
+            <div class="row ">
+                <!-- Tables -->
+                <div class="col-12 mb-3">
+                    <h2>Gas Meter Entry</h2>
+                </div>
+                <div class="col-12 mb-3 dark-text">
+                    {% if submitted %}
+                    <div id="successMessage">
+                        Successfully Saved! Redirecting in <span id="countdown">2</span> seconds...
+                    </div>
+
+                </div>
+                {% else %}
+                <div>
+
+                    <form action="" class="row gas_meter" method="POST">
+                        {% csrf_token %}
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4  ">
+                            {{ form.docdate.label_tag }}
+                            <div class="d-sm-flex" style="gap: 10px;">
+
+                                {{ form.docdate }}
+                            </div>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="docidgasmeterreadings">
+                                Gas meter Readings:
+                            </label>
+                            {{ form.docidgasmeterreadings }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="userid">
+                                Userid:
+                            </label>
+                            {{ form.userid }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="temperature">
+                                Temperature:
+                            </label>
+                            {{ form.temperature }}
+                        </div>
+
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                Volume:
+                            </label>
+                            {{ form.volume }}
+                        </div>
+
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="linepressure">
+                                Line pressure:
+                            </label>
+                            {{ form.linepressure }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Input by Id:
+                            </label>
+                            {{ form.inputbyid }}
+                        </div>
+
+                        {% if errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please correct the following errors:
+                            {{ errors }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mb-3">
+                            <div class="row justify-content-center">
+
+                                <div class="">
+
+                                    <input type="submit" value="Submit" class="btn btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div class="col-12">
+                        <div class="mb-1">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-secondary active" onclick="gasMeterPDF()">
+                                <input type="radio" name="options" id="option1" checked autocomplete="off"> Export PDF
+                              </label>
+                              <label class="btn btn-secondary" onclick="gasMeterCsv()">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+                              </label>
+                            </div>
+                          </div>
+                        <div class="table-responsive">
+                            <table class="table bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="table-secondary" scope="col">Docdate</th>
+                                        <th class="min-120 table-secondary" scope="col">Gas meter Readings</th>
+                                        <th class="min-120 table-secondary" scope="col">User ID</th>
+                                        <th class="min-140 table-secondary" scope="col">Temperature</th>
+                                        <th class="min-140 table-secondary" scope="col">Volume</th>
+                                        <th class="min-140 table-secondary" scope="col">Line pressure</th>
+                                        <th class="min-140 table-secondary" scope="col">Input by Id</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if latest_records %}
+                                        {% for record in latest_records %}
+                                        <tr>
+                                            <td>{{record.docdate}}</td>
+                                            <td>{{ record.docidgasmeterreadings }}</td>
+                                            <td>{{ record.userid }}</td>
+                                            <td>{{ record.temperature }}</td>
+                                            <td>{{ record.volume|floatformat:2 |intcomma }}</td>
+                                            <td>{{ record.linepressure }}</td>
+                                            <td>{{ record.inputbyid }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4" class="text-center">No Record Found</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}

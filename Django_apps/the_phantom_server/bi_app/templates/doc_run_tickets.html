@@ -1,0 +1,160 @@
+{% extends "main.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container px-0 px-lg-3">
+    <div class="card perent-card bg-gray-800 m-0 m-lg-3">
+        <div class="card-body">
+
+            <div class="row ">
+                <!-- Tables -->
+                <div class="col-12 mb-3">
+                    <h2>Doc Run Tickets Entry</h2>
+                </div>
+                <div class="col-12 mb-3 dark-text">
+                    {% if submitted %}
+                    <div id="successMessage">
+                        Successfully Saved! Redirecting in <span id="docruncountdown">2</span> seconds...
+                    </div>
+
+                </div>
+                {% else %}
+                <div>
+                    <form action="" class="row gas_meter" method="POST">
+                        {% csrf_token %}
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                End Feet:
+                            </label>
+                            {{ form.end_ft }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="docidgasmeterreadings">
+                                End Inch:
+                            </label>
+                            {{ form.end_inch }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="userid">
+                                End 1/4:
+                            </label>
+                            {{ form.end_qtr }}
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="temperature">
+                                Gravity:
+                            </label>
+                            {{ form.gravity }}
+                        </div>
+
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="volume">
+                                BSW:
+                            </label>
+                            {{ form.bsw }}
+                        </div>
+
+
+                        <div class=" mb-3 col-12 col-md-6 col-lg-4  ">
+                            {{ form.docdate.label_tag }}
+                            <div class="d-sm-flex" style="gap: 10px;">
+                                {{ form.docdate }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Purchaser ID:
+                            </label>
+                            {{ form.purchaserid }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Ticket Number:
+                            </label>
+                            {{ form.ticketnum }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 col-lg-4">
+                            <label for="inputbyid">
+                                Volume:
+                            </label>
+                            {{ form.volume }}
+                        </div>
+
+                        {% if errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please correct the following errors:
+                            {{ errors }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mb-3">
+                            <div class="row justify-content-center">
+
+                                <div class="">
+
+                                    <input type="submit" value="Submit" class="btn btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div class="col-12">
+                        <div class="mb-1">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active" onclick="docRunTicketPDF()">
+                                    <input type="radio" name="options" id="option1" checked autocomplete="off"> Export
+                                    PDF
+                                </label>
+                                <label class="btn btn-secondary" onclick="docRunTicketCSV()">
+                                    <input type="radio" name="options" id="option2" autocomplete="off"> Export CSV
+                                </label>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="min-120 table-secondary" scope="col">Docdate</th>
+                                        <th class="min-120 table-secondary" scope="col">End Feet</th>
+                                        <th class="min-120 table-secondary" scope="col">End Inch</th>
+                                        <th class="min-120 table-secondary" scope="col">End 1/4</th>
+                                        <th class="min-120 table-secondary" scope="col">Gravity</th>
+                                        <th class="min-120 table-secondary" scope="col">BSW</th>
+                                        <th class="min-120 table-secondary" scope="col">Purchaser ID</th>
+                                        <th class="min-120 table-secondary" scope="col">Ticket Number</th>
+                                        <th class="min-120 table-secondary" scope="col">Volume</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if latest_records %}
+                                    {% for record in latest_records %}
+                                    <tr>
+                                        <td>{{ record.docdate|date:"M d, Y"|default:'None' }}</td>
+                                        <td>{{record.end_ft|floatformat:2|intcomma}}</td>
+                                        <td>{{ record.end_inch|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.end_qtr|default:'None' }}</td>
+                                        <td>{{ record.gravity|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.bsw|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.purchaserid|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.ticketnum|floatformat:2|intcomma|default:'None' }}</td>
+                                        <td>{{ record.volume|floatformat:2|intcomma|default:'None' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No Record Found</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}
